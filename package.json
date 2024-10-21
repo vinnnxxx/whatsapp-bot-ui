@@ -1,0 +1,21 @@
+{
+  "name": "whastapp-bot-ui",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "keywords": [],
+  "author": "I-As.Dev",
+  "license": "MIT",
+  "description": "Proyek ini menyediakan antarmuka yang intuitif dan responsif, memungkinkan pengguna untuk mengelola percakapan, mengonfigurasi pengaturan bot, dan memantau aktivitas secara real-time",
+  "dependencies": {
+    "body-parser": "^1.20.3",
+    "cookie-parser": "^1.4.7",
+    "ejs": "^3.1.10",
+    "express": "^4.21.1",
+    "qrcode": "^1.5.4",
+    "socket.io": "^4.8.0",
+    "whatsapp-web.js": "^1.26.0"
+  }
+}

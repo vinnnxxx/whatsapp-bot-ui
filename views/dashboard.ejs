@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/images/logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        const sessionId = '<%= sessionId %>';
+        const socket = io();
+
+        socket.on('connect', () => {
+            socket.emit('joinRoom', sessionId);
+        });
+
+		socket.on('newMessage', (message) => {
+			const messagesContainer = document.getElementById('messages');
+			const newMessageElement = document.createElement('div');
+
+			newMessageElement.classList.add('message', 'flex', 'flex-col', 'mb-2', 'rounded-md', message.type === 'incoming' ? 'items-start' : 'items-end');
+
+			newMessageElement.innerHTML = `
+                <div class="${message.type === 'incoming' ? 'bg-blue-400' : 'bg-green-400'} rounded-md text-white shadow">
+                    <div class="px-2 py-1">
+                        <strong class="block font-semibold">${message.type === 'incoming' ? message.from : 'Bot'}:</strong>
+                    </div>
+                    <div class="${message.type === 'incoming' ? 'bg-gray-100 text-gray-700' : 'bg-green-100 text-green-900'} p-2 rounded-b-md max-w-xl">
+                        ${message.mediaUrl && typeof message.mediaUrl === 'string' ? `
+                            <div class="mt-2">
+                                <img src="${message.mediaUrl.startsWith('http') ? message.mediaUrl : '/images/' + message.mediaUrl.split('/').pop()}" alt="Media" class="h-[200px] object-cover rounded-md">
+                            </div>
+                        ` : ''}
+                        <span>${message.body}</span>
+                    </div>
+                </div>`;
+
+			messagesContainer.appendChild(newMessageElement);
+			messagesContainer.scrollTop = messagesContainer.scrollHeight;
+		});
+
+    </script>
+</head>
+<body class="font-sans bg-gray-50 flex flex-col">
+
+	<div class="fixed top-0 flex justify-between items-center w-full bg-white shadow px-4 py-2">
+		<div class="flex items-center gap-2">
+			<img class="h-10 w-10" src="/images/logo.png" alt="logo">
+			<h1 class="text-xl font-bold text-gray-700">WaBot (<%= sessionId %>)</h1>
+		</div>
+		<form action="/logout/<%= sessionId %>" method="POST">
+			<button type="submit" class="bg-red-500 hover:bg-red-600 text-white py-1 px-3 rounded">
+				Logout
+			</button>
+		</form>
+	</div>
+
+	<div class="h-screen container m-auto pt-20 pb-4">
+		<div id="messages" class="h-full w-full overflow-y-auto border border-gray-200 rounded-lg bg-white p-4">
+			<% messages.forEach(msg => { %>
+				<div class="message <%= msg.type === 'incoming' ? 'items-start justify-start' : 'items-end justify-end' %> w-full flex flex-col rounded-md mb-2">
+					<div class="<%= msg.type === 'incoming' ? 'bg-blue-400' : 'bg-green-400' %> rounded-md text-white shadow">
+						<div class="px-2 py-1">
+							<strong class="block font-semibold">~<%= msg.type === 'incoming' ? msg.from : 'Bot' %></strong>
+						</div>
+						<div class="<%= msg.type === 'incoming' ? 'bg-gray-100 text-gray-700' : 'bg-green-100 text-green-900' %> p-2 rounded-b-md max-w-xl">
+							<% if (msg.mediaUrl && typeof msg.mediaUrl === 'string') { %>
+								<div class="mt-2">
+									<img src="<%= msg.mediaUrl.startsWith('http') ? msg.mediaUrl : '/images/' + msg.mediaUrl.split('/').pop() %>" alt="Media" class="h-[200px] object-cover 2-auto rounded-md">
+								</div>
+							<% } %>
+							<span><%= msg.body %></span>
+						</div>
+					</div>
+				</div>
+			<% }) %>
+		</div>
+	</div>
+</body>
+</html>
