@@ -1,21 +1,20 @@
-body {
-    font-family: Arial, sans-serif;
-    margin: 20px;
+pre {
+    font-family: 'Courier New', monospace !important;
+    font-size: 14px !important;
+    background-color: #e3e3e3 !important;
+    border: 1px solid #ccc !important;
+    padding: 5px !important;
+    overflow-x: auto !important;
+    overflow-y: auto !important;
+    color: #242424 !important;
+    border-radius: 5px !important;
+    margin: 1px 0 !important;
 }
 
-h1 {
-    color: #333;
-}
-
-form {
-    margin-top: 20px;
-}
-
-input[type="text"] {
-    padding: 8px;
-    margin-right: 5px;
-}
-
-button {
-    padding: 8px 12px;
+code {
+    font-family: 'Courier New', monospace !important;
+    background-color: #e3e3e3 !important;
+    padding: 0.2rem 0.2rem !important;
+    border-radius: 3px !important;
+	color: #242424 !important;
 }

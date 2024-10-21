@@ -6,6 +6,8 @@
     <link rel="icon" type="image/png" href="/images/logo.png">
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+	<link rel="stylesheet" href="/css/styles.css">
     <script>
         const sessionId = '<%= sessionId %>';
         const socket = io();
@@ -17,6 +19,7 @@
 		socket.on('newMessage', (message) => {
 			const messagesContainer = document.getElementById('messages');
 			const newMessageElement = document.createElement('div');
+            const messageBody = marked.parse(message.body);
 
 			newMessageElement.classList.add('message', 'flex', 'flex-col', 'mb-2', 'rounded-md', message.type === 'incoming' ? 'items-start' : 'items-end');
 
@@ -31,7 +34,9 @@
                                 <img src="${message.mediaUrl.startsWith('http') ? message.mediaUrl : '/images/' + message.mediaUrl.split('/').pop()}" alt="Media" class="h-[200px] object-cover rounded-md">
                             </div>
                         ` : ''}
-                        <span>${message.body}</span>
+                        <div class="markdown-body">
+                            ${messageBody}
+                        </div>
                     </div>
                 </div>`;
 
@@ -39,6 +44,16 @@
 			messagesContainer.scrollTop = messagesContainer.scrollHeight;
 		});
 
+		function renderMarkdown() {
+			document.querySelectorAll('.markdown-body').forEach((element) => {
+				const markdownText = element.textContent.trim();
+				const formattedText = markdownText.replace(/\n/g, '\n');
+				element.innerHTML = marked.parse(formattedText);
+			});
+		}
+
+
+        document.addEventListener('DOMContentLoaded', renderMarkdown);
     </script>
 </head>
 <body class="font-sans bg-gray-50 flex flex-col">
@@ -100,7 +115,9 @@
 										<img src="<%= msg.mediaUrl.startsWith('http') ? msg.mediaUrl : '/images/' + msg.mediaUrl.split('/').pop() %>" alt="Media" class="h-[200px] object-cover 2-auto rounded-md">
 									</div>
 								<% } %>
-								<span><%= msg.body %></span>
+								<div class="markdown-body">
+                                    <%= msg.body %>
+                                </div>
 							</div>
 						</div>
 					</div>
@@ -108,20 +125,11 @@
 			</div>
 		</main>
 	</div>
+	
+    <script src="/js/script.js"></script>
 	<script>
-		const sidebar = document.getElementById('sidebar');
-		const sidebarToggle = document.getElementById('sidebarToggle');
-		const closeSidebar = document.getElementById('closeSidebar');
-
-		// Menangani klik pada tombol untuk membuka sidebar
-		sidebarToggle.addEventListener('click', () => {
-			sidebar.classList.toggle('-translate-x-full');
-		});
-
-		// Menangani klik pada tombol untuk menutup sidebar
-		closeSidebar.addEventListener('click', () => {
-			sidebar.classList.toggle('-translate-x-full');
-		});
+		const cleanMessage = message.body.trim();
+		renderMarkdown();
 	</script>
 </body>
 </html>
