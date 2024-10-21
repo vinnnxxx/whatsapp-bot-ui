@@ -4,7 +4,6 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const cookieParser = require('cookie-parser');
-const Pages = require('./routes/Pages');
 const createSocketServer = require('./utils/Socket');
 const { createClient, clients, messages } = require('./config/Init');
 
@@ -18,25 +17,43 @@ app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-app.use('/', Pages);
+app.get('/', (req, res) => {
+    const existingSessions = Object.keys(clients);
+    const sessionIdFromCookie = req.cookies.sessionId;
+	if (sessionIdFromCookie && clients[sessionIdFromCookie]) {
+        return res.redirect(`/dashboard/${sessionIdFromCookie}`);
+    }
+    if (existingSessions.length > 0) {
+        return res.redirect(`/dashboard/${existingSessions[0]}`);
+    }
+    res.render('index', { qrCodeUrl: null, sessionId: null, authenticated: false, error: null });
+});
 
 app.post('/register', (req, res) => {
     const { phoneNumber } = req.body;
+    const sessionId = phoneNumber;
+    const authFilePath = path.join(__dirname, `.wwebjs_auth/session-${sessionId}`);
 
-    if (clients[phoneNumber]) {
-        const client = clients[phoneNumber];
-        client.getState().then(state => {
-            if (state !== 'CONNECTED') {
-                createClient(phoneNumber, res, io);
+    fs.access(authFilePath, fs.constants.F_OK, (err) => {
+        if (!err) {
+            const client = clients[phoneNumber];
+            if (client) {
+                client.getState().then(state => {
+                    if (state === 'CONNECTED') {
+                        return res.redirect(`/dashboard/${phoneNumber}`);
+                    } else {
+                        createClient(phoneNumber, res, io);
+                    }
+                }).catch(() => {
+                    createClient(phoneNumber, res, io);
+                });
             } else {
-                return res.redirect(`/dashboard/${phoneNumber}`);
+                createClient(phoneNumber, res, io);
             }
-        }).catch(() => {
+        } else {
             createClient(phoneNumber, res, io);
-        });
-    } else {
-        createClient(phoneNumber, res, io);
-    }
+        }
+    });
 });
 
 app.get('/dashboard/:sessionId', (req, res) => {

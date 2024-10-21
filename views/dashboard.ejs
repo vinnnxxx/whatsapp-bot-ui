@@ -24,7 +24,7 @@
 			newMessageElement.innerHTML = `
                 <div class="${message.type === 'incoming' ? 'bg-blue-400' : 'bg-green-400'} rounded-md text-white shadow">
                     <div class="px-2 py-1">
-                        <strong class="block font-semibold">${message.type === 'incoming' ? message.from : 'Bot'}:</strong>
+                        <strong class="block font-semibold">~${message.type === 'incoming' ? message.from : '🤖 Bot'}</strong>
                     </div>
                     <div class="${message.type === 'incoming' ? 'bg-gray-100 text-gray-700' : 'bg-green-100 text-green-900'} p-2 rounded-b-md max-w-xl">
                         ${message.mediaUrl && typeof message.mediaUrl === 'string' ? `
@@ -62,7 +62,7 @@
 				<div class="message <%= msg.type === 'incoming' ? 'items-start justify-start' : 'items-end justify-end' %> w-full flex flex-col rounded-md mb-2">
 					<div class="<%= msg.type === 'incoming' ? 'bg-blue-400' : 'bg-green-400' %> rounded-md text-white shadow">
 						<div class="px-2 py-1">
-							<strong class="block font-semibold">~<%= msg.type === 'incoming' ? msg.from : 'Bot' %></strong>
+							<strong class="block font-semibold">~<%= msg.type === 'incoming' ? msg.from : '🤖 Bot' %></strong>
 						</div>
 						<div class="<%= msg.type === 'incoming' ? 'bg-gray-100 text-gray-700' : 'bg-green-100 text-green-900' %> p-2 rounded-b-md max-w-xl">
 							<% if (msg.mediaUrl && typeof msg.mediaUrl === 'string') { %>

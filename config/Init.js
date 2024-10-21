@@ -1,4 +1,5 @@
-const { Client, LocalAuth, MessageMedia } = require('whatsapp-web.js');
+const { Client, LocalAuth } = require('whatsapp-web.js');
+const { handleIncomingMessage } = require('../controllers/Messages');
 const qrcode = require('qrcode');
 const fs = require('fs');
 const path = require('path');
@@ -39,7 +40,7 @@ const createClient = async (sessionId, res, io) => {
 
     client.on('message', async (message) => {
         const senderNumber = message.from.split('@')[0];
-        console.log(`Incoming message from ${senderNumber}: ${message.body}`);
+        console.log(`${senderNumber}: ${message.body}`);
 
         if (!message || !message.body) {
             console.error('Message or message body is undefined');
@@ -101,44 +102,6 @@ const createClient = async (sessionId, res, io) => {
 	});
 
     client.initialize();
-};
-
-const handleIncomingMessage = async (message, client) => {
-    let response;
-
-    try {
-        if (message.body === '.reply') {
-            await message.react('⏳');
-            response = "Reply done!";
-            await message.react('✅');
-        } else if (message.body.startsWith('.media-local')) {
-            const caption = 'Gambar local';
-            const media = MessageMedia.fromFilePath('./public/images/default.png');
-            response = { type: 'media', mediaUrl: 'http://localhost:3000/images/default.png', caption: caption };
-
-            await message.react('⏳');
-            await client.sendMessage(message.from, media, { caption: caption });
-            await message.react('✅');
-        } else if (message.body.startsWith('.media-url')) {
-            const caption = 'Gambar url';
-			const mediaUrl = 'https://via.placeholder.com/350x150.png';
-			
-			// Create the media object from the URL
-			const media = await MessageMedia.fromUrl(mediaUrl);
-			
-			// Prepare the response
-			response = { type: 'media', mediaUrl: mediaUrl, caption: caption };
-			
-			await message.react('⏳'); // Indicate that the bot is processing the request
-			await client.sendMessage(message.from, media, { caption: caption });
-			await message.react('✅'); // Indicate that the bot has completed the action
-        }
-    } catch (error) {
-        await message.react('⛔');
-        response = { type: 'error', message: "Failed to process the request." };
-    }
-
-    return response;
 };
 
 module.exports = { createClient, clients, messages };

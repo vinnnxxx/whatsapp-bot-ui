@@ -1,0 +1,11 @@
+{
+    ".reply": "Reply done!",
+    ".media-local": {
+        "caption": "Gambar lokal",
+        "filePath": "./public/images/default.png"
+    },
+    ".media-url": {
+        "caption": "Gambar URL",
+        "url": "https://img.freepik.com/free-photo/anime-style-galaxy-background_23-2151133974.jpg"
+    }
+}
