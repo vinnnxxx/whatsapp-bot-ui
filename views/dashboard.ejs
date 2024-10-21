@@ -47,7 +47,7 @@
 		function renderMarkdown() {
 			document.querySelectorAll('.markdown-body').forEach((element) => {
 				const markdownText = element.textContent.trim();
-				const formattedText = markdownText.replace(/\n/g, '\n');
+				const formattedText = markdownText.replace(/\n/g, '\n\n');
 				element.innerHTML = marked.parse(formattedText);
 			});
 		}
