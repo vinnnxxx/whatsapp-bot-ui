@@ -1,0 +1,19 @@
+<header class="fixed z-40 top-0 flex gap-2 justify-between items-center w-full bg-white shadow px-4 py-2">
+    <button id="sidebarToggle" class="md:hidden bg-gray-200 p-[5px] rounded text-gray-800 hover:scale-105 hover:bg-blue-100">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5" />
+        </svg> 
+    </button>
+    <a href="/dashboard/<%= sessionId %>" class="flex items-center gap-2">
+        <img class="h-10 w-10" src="/images/logo.png" alt="logo">
+        <h1 class="text-2xl font-bold text-gray-700 overflow-hidden line-clamp-1">WaBot (<%= sessionId %>)</h1>
+    </a>
+    <form action="/logout/<%= sessionId %>" method="POST">
+        <button type="submit" class="flex gap-1 items-center bg-red-500 hover:bg-red-600 text-white py-2 px-3 font-bold rounded text-xs">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15" />
+            </svg>
+            Logout
+        </button>
+    </form>
+</header>

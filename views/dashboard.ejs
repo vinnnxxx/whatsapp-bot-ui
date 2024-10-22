@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title><%= sessionId %> - WaBot</title>
     <link rel="icon" type="image/png" href="/images/logo.png">
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -57,51 +58,10 @@
     </script>
 </head>
 <body class="font-sans bg-gray-50 flex flex-col">
-
-	<header class="fixed z-40 top-0 flex gap-2 justify-between items-center w-full bg-white shadow px-4 py-2">
-		<button id="sidebarToggle" class="md:hidden bg-gray-200 p-[5px] rounded text-gray-800 hover:scale-105 hover:bg-blue-100">
-			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6">
-			  <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5" />
-			</svg> 
-		</button>
-		<a href="/dashboard/<%= sessionId %>" class="flex items-center gap-2">
-			<img class="h-10 w-10" src="/images/logo.png" alt="logo">
-			<h1 class="text-2xl font-bold text-gray-700 overflow-hidden line-clamp-1">WaBot (<%= sessionId %>)</h1>
-		</a>
-		<form action="/logout/<%= sessionId %>" method="POST">
-			<button type="submit" class="flex gap-1 items-center bg-red-500 hover:bg-red-600 text-white py-2 px-3 font-bold rounded text-xs">
-				<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5">
-				  <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15" />
-				</svg>
-
-				Logout
-			</button>
-		</form>
-	</header>
-
+	<%- include('partials/header') %>
 	<div>
 		<main class="min h-screen pt-20 p-4 flex flex-col md:flex-row gap-6">
-			<div id="sidebar" class="h-full overflow-y-auto rounded-lg text-gray-600 fixed inset-0 bg-white transition-transform transform -translate-x-full md:relative md:translate-x-0 w-1/2 md:w-1/4 p-2 border-r md:border border-gray-200 z-50 md:z-10">
-				<div class="flex justify-between items-center md:hidden">
-					<h2 class="text-2xl font-bold text-gray-800">
-						Menu
-					</h2>
-					<button id="closeSidebar" class="bg-rose-500 rounded p-[5px] text-white">
-						<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5">
-						  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-						</svg>
-					</button>
-				</div>
-				<div class="sidebar-content mt-6 md:mt-0 flex flex-col gap-1">
-					<a href="/dashboard/<%= sessionId %>" class="flex items-center font-semibold gap-2 hover:bg-green-100 p-2 rounded-md transition">
-						<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5">
-						  <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6a7.5 7.5 0 1 0 7.5 7.5h-7.5V6Z" />
-						  <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 10.5H21A7.5 7.5 0 0 0 13.5 3v7.5Z" />
-						</svg>
-						<span>Dashboard</span>
-					</a>
-				</div>
-			</div>
+			<%- include('partials/sidebar') %>
 			<div id="messages" class="h-full w-full overflow-y-auto border border-gray-200 rounded-lg bg-white p-4">
 				<% messages.forEach(msg => { %>
 					<div class="message <%= msg.type === 'incoming' ? 'items-start justify-start' : 'items-end justify-end' %> w-full flex flex-col rounded-md mb-2">

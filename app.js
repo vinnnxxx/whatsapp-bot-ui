@@ -79,6 +79,33 @@ app.get('/dashboard/:sessionId', (req, res) => {
     }
 });
 
+app.get('/docs/:sessionId', (req, res) => {
+    const sessionId = req.params.sessionId;
+    const filePath = path.join(__dirname, 'database', 'docs.txt');
+    fs.readFile(filePath, 'utf8', (err, data) => {
+        if (err) {
+            console.error('Error reading docs.txt:', err);
+            return res.status(500).send('Internal Server Error');
+        }
+        if (clients[sessionId]) {
+            res.render('docs', { sessionId, DocsContent: data });
+        } else {
+            if (req.query.delete === 'true') {
+                const authFolderPath = path.join(__dirname, '.wwebjs_auth', `session-${sessionId}`);
+                fs.rm(authFolderPath, { recursive: true, force: true }, (err) => {
+                    if (err) {
+                        console.error(`Failed to delete auth folder: ${authFolderPath}`, err);
+                    } else {
+                        console.log(`Auth folder deleted: ${authFolderPath}`);
+                    }
+                    res.redirect('/');
+                });
+            } else {
+                res.render('confirm-delete', { sessionId });
+            }
+        }
+    });
+});
 
 app.post('/logout/:sessionId', (req, res) => {
     const sessionId = req.params.sessionId;
