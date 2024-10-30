@@ -19,8 +19,8 @@ npm install
 - Double klik pada file `start.bat`
 - Frontend: `http://localhost:3000/`
 
-  ### Custom Command Auto Response
+### Custom Command Auto Response
 
-  Edit file `/settings/auto_response.json`
+Edit file `/settings/auto_response.json`
 
 *#Jangan lupa tinggalkan Bintang dan Fork untuk mendapatkan update terbaru.*
