@@ -18,9 +18,9 @@
     "CMD_YTDLMP3": ".ytdl-mp3"
   },
   "settings": {
-    "QR_URL": "false",
-    "SELF": "false",
-    "GEMINI_API": "AIzaSyA62SxHRGpkrAO1Wzos3LMvK-ISJbTp1LU",
+    "QR_URL": "true",
+    "SELF": "true",
+    "GEMINI_API": "AIzxxxxxxxxxxxxxxxx",
     "GEMINI_PROMPT": "Anda harus berpura-pura menjadi Whastapp-Bot dan jawab pertanyaan menggunakan bahasa indonesia dengan singkat: "
   }
 }
