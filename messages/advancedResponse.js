@@ -1,15 +1,156 @@
 const { downloadMediaMessage } = require('fhy-wabot');
+const { exec } = require('child_process');
 const fs = require('fs');
 const path = require('path');
+const gTTS = require('gtts');
 const configPath = path.join(__dirname, '../settings/config.json');
 const config = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
 const { GeminiMessage, GeminiImage } = require('./utils/Gemini');
 const { Country } = require('./utils/Country');
 const { YoutubeVideo, YoutubeAudio, FacebookVideo, FacebookAudio, TwitterVideo, TwitterAudio, InstagramVideo, InstagramAudio, TikTokVideo, TikTokAudio, VimeoVideo, VimeoAudio } = require('./utils/Downloader');
 const { Translate } = require('./utils/Translates');
+const { Weather } = require('./utils/Weather');
+const { CheckSEO } = require('./utils/SEO');
+const { WikipediaAI, WikipediaSearch, WikipediaImage } = require('./utils/Wikipedia');
 
 async function AdvancedResponse(messageContent, sender, sock, message) {
     
+	if (messageContent.startsWith(`${config.cmd.CMD_TO_VOICE} `)) {
+		const textToConvert = messageContent.replace(`${config.cmd.CMD_TO_VOICE} `, '');
+		await sock.sendMessage(sender, { react: { text: "⌛", key: message.key } });
+		try {
+			const audioFilePath = path.join(__dirname, '../public/media/to-voice.mp3');
+			const gtts = new gTTS(textToConvert, `${config.settings.TO_VOICE}`);
+			gtts.save(audioFilePath, async function (err) {
+				if (err) {
+					console.error('Error saving audio:', err);
+					await sock.sendMessage(sender, { react: { text: "❌", key: message.key } });
+					return;
+				}
+				await sock.sendMessage(sender, {
+					audio: { url: audioFilePath },
+					mimetype: 'audio/mp4',
+					ptt: true,
+				}, { quoted: message });
+				fs.unlink(audioFilePath, (unlinkErr) => {
+					if (unlinkErr) {
+						console.error('Error deleting audio file:', unlinkErr);
+					}
+				});
+				await sock.sendMessage(sender, { react: { text: "✅", key: message.key } });
+			});
+		} catch (error) {
+			await sock.sendMessage(sender, { react: { text: "❌", key: message.key } });
+		}
+	}
+		
+	if (messageContent === `${config.cmd.CMD_STICKER}`) {
+		const quotedMessage = message.message.extendedTextMessage?.contextInfo?.quotedMessage;
+		if (quotedMessage?.imageMessage) {
+			await sock.sendMessage(sender, { react: { text: "⌛", key: message.key } });
+			const buffer = await downloadMediaMessage({ message: quotedMessage }, 'buffer');
+			const inputFilePath = path.join(__dirname, '../public/media/sticker-image.jpg');
+			const outputStickerPath = path.join(__dirname, '../public/media/sticker.webp');
+			const ffmpegPath = path.join(__dirname, '../plugin/ffmpeg.exe');
+			fs.writeFileSync(inputFilePath, buffer);
+			const ffmpegCommand = `"${ffmpegPath}" -i "${inputFilePath}" -vf "scale=512:512" -vcodec libwebp -lossless 1 -qscale 80 -loop 0 -an -vsync 0 -preset default -t 5 "${outputStickerPath}"`;
+			exec(ffmpegCommand, async (error, stdout, stderr) => {
+				if (error) {
+					await sock.sendMessage(sender, { react: { text: "❌", key: message.key } });
+					return;
+				}
+				const stickerBuffer = fs.readFileSync(outputStickerPath);
+				await sock.sendMessage(sender, { sticker: stickerBuffer }, { quoted: message });
+				fs.unlinkSync(inputFilePath);
+				fs.unlinkSync(outputStickerPath);
+				await sock.sendMessage(sender, { react: { text: "✅", key: message.key } });
+			});
+		} else {
+			await sock.sendMessage(sender, { text: "Tidak ada gambar yang di-quote untuk dibuat sticker." }, { quoted: message });
+			await sock.sendMessage(sender, { react: { text: "❌", key: message.key } });
+		}
+	}
+		
+	if (messageContent.startsWith(`${config.cmd.CMD_WIKIPEDIA_AI} `)) {
+		const searchQuery = messageContent.replace(`${config.cmd.CMD_WIKIPEDIA_AI} `, '').trim();
+		await sock.sendMessage(sender, { react: { text: "⌛", key: message.key } });
+		try {
+			const responseMessage = await WikipediaAI(searchQuery, sock, sender, message);
+			if (responseMessage) {
+				await sock.sendMessage(sender, { text: responseMessage, quoted: message });
+			}
+			await sock.sendMessage(sender, { react: { text: "✅", key: message.key } });
+		} catch (error) {
+			console.error('Error sending message:', error);
+			await sock.sendMessage(sender, { react: { text: "❌", key: message.key } });
+		}
+	}
+
+	if (messageContent.startsWith(`${config.cmd.CMD_WIKIPEDIA_SEARCH} `)) {
+		const searchQuery = messageContent.replace(`${config.cmd.CMD_WIKIPEDIA_SEARCH} `, '').trim();
+		await sock.sendMessage(sender, { react: { text: "⌛", key: message.key } });
+		try {
+			const responseMessage = await WikipediaSearch(searchQuery, sock, sender, message);
+			if (responseMessage) {
+				await sock.sendMessage(sender, { text: responseMessage, quoted: message });
+			}
+			await sock.sendMessage(sender, { react: { text: "✅", key: message.key } });
+		} catch (error) {
+			console.error('Error sending message:', error);
+			await sock.sendMessage(sender, { react: { text: "❌", key: message.key } });
+		}
+	}
+		
+	if (messageContent.startsWith(`${config.cmd.CMD_WIKIPEDIA_IMG} `)) {
+		const userQuery = messageContent.replace(`${config.cmd.CMD_WIKIPEDIA_IMG} `, '').trim();
+		await sock.sendMessage(sender, { react: { text: "⌛", key: message.key } });
+		try {
+			const { url, caption } = await WikipediaImage(userQuery);
+			await sock.sendMessage(sender, {image: {url: url}, caption: caption}, { quoted: message });
+			await sock.sendMessage(sender, { react: { text: "✅", key: message.key } });
+		} catch (error) {
+			console.error('Error sending message:', error);
+			await sock.sendMessage(sender, { react: { text: "❌", key: message.key } });
+		}
+	}
+		
+	if (messageContent.startsWith(`${config.cmd.CMD_SEO} `)) {
+		const domain = messageContent.replace(`${config.cmd.CMD_SEO} `, '').trim();
+		await sock.sendMessage(sender, { react: { text: "⌛", key: message.key } });
+
+		try {
+			const responseMessage = await CheckSEO(domain); 
+			const formattedMessage = 
+				'- SEO Success Rate: ' + responseMessage.seoSuccessRate + '\n' +
+				'- Title: ' + responseMessage.title + '\n' +
+				'- Meta Description: ' + responseMessage.metaDescription + '\n' +
+				'- Meta Keywords: ' + responseMessage.metaKeywords + '\n' +
+				'- Open Graph Title: ' + responseMessage.ogTitle + '\n' +
+				'- Open Graph Description: ' + responseMessage.ogDescription + '\n' +
+				'- Open Graph Image: ' + responseMessage.ogImage + '\n' +
+				'- Canonical URL: ' + responseMessage.canonicalUrl + '\n' +
+				'- Is Indexable: ' + (responseMessage.isIndexable ? 'Yes' : 'No');
+			await sock.sendMessage(sender, { text: formattedMessage.trim() }, { quoted: message });
+			await sock.sendMessage(sender, { react: { text: "✅", key: message.key } });
+		} catch (error) {
+			console.error('Error sending message:', error);
+			await sock.sendMessage(sender, { react: { text: "❌", key: message.key } });
+		}
+	}
+		
+	if (messageContent.startsWith(`${config.cmd.CMD_WEATHER} `)) {
+		const cityName = messageContent.replace(`${config.cmd.CMD_WEATHER} `, '').trim();
+		await sock.sendMessage(sender, { react: { text: "⌛", key: message.key } });
+		try {
+			const weatherJson = await Weather(cityName);
+			const responseMessage = `*Weather in ${cityName}*\n\nTemperature: ${weatherJson.temperature}\nCondition: ${weatherJson.condition}\nWind: ${weatherJson.wind}\nHumidity: ${weatherJson.humidity}`;
+			await sock.sendMessage(sender, { text: responseMessage }, { quoted: message });
+			await sock.sendMessage(sender, { react: { text: "✅", key: message.key } });
+		} catch (error) {
+			console.error('Error sending message:', error);
+			await sock.sendMessage(sender, { react: { text: "❌", key: message.key } });
+		}
+	}
 	if (messageContent.startsWith(`${config.cmd.CMD_TRANSLATE}`)) {
 		const parts = messageContent.split(' ');
 		const langId = parts[0].split('-')[1];

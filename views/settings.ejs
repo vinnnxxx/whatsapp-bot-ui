@@ -45,11 +45,63 @@
 						what this?</span>
 					</div>
 					<div class="flex flex-col gap-1">
+						<label>Sticker Maker</label>
+						<input name="CMD_STICKER" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_STICKER %>" onkeydown="return event.key !== ' '" />
+						<span class="text-xs text-gray-300">e.g: (quote) 
+						<code class="bg-gray-700">.sticker</code>
+						</span>
+					</div>
+					<div class="flex flex-col gap-1">
+						<label>Text to Voice</label>
+						<input name="CMD_TO_VOICE" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_TO_VOICE %>" onkeydown="return event.key !== ' '" />
+						<span class="text-xs text-gray-300">e.g: 
+						<code class="bg-gray-700">.tovoice</code>
+						halo apa kabar!
+						</span>
+					</div>
+					<div class="flex flex-col gap-1">
 						<label>Country Info</label>
 						<input name="CMD_COUNTRY" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_COUNTRY %>" onkeydown="return event.key !== ' '" />
 						<span class="text-xs text-gray-300">e.g: 
 						<code class="bg-gray-700">.country</code> 
 						indonesia</span>
+					</div>
+					<div class="flex flex-col gap-1">
+						<label>Weather Info</label>
+						<input name="CMD_WEATHER" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_WEATHER %>" onkeydown="return event.key !== ' '" />
+						<span class="text-xs text-gray-300">e.g: 
+						<code class="bg-gray-700">.weather</code> 
+						jakarta</span>
+					</div>
+					
+					<div class="flex flex-col gap-1">
+						<label>Wiki Search</label>
+						<input name="CMD_WIKIPEDIA_SEARCH" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_WIKIPEDIA_SEARCH %>" onkeydown="return event.key !== ' '" />
+						<span class="text-xs text-gray-300">e.g: 
+						<code class="bg-gray-700">.wiki-search</code> 
+						indonesia</span>
+					</div>
+					<div class="flex flex-col gap-1">
+						<label>Wiki Image</label>
+						<input name="CMD_WIKIPEDIA_IMG" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_WIKIPEDIA_IMG %>" onkeydown="return event.key !== ' '" />
+						<span class="text-xs text-gray-300">e.g: 
+						<code class="bg-gray-700">.wiki-img</code> 
+						indonesia</span>
+					</div>
+					<div class="flex flex-col gap-1">
+						<label>Wiki AI</label>
+						<input name="CMD_WIKIPEDIA_AI" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_WIKIPEDIA_AI %>" onkeydown="return event.key !== ' '" />
+						<span class="text-xs text-gray-300">e.g: 
+						<code class="bg-gray-700">.wiki-ai</code> 
+						indonesia</span>
+					</div>
+					
+					<div class="flex flex-col gap-1">
+						<label>SEO Info</label>
+						<input name="CMD_SEO" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_SEO %>" onkeydown="return event.key !== ' '" />
+						<span class="text-xs text-gray-300">e.g: 
+						<code class="bg-gray-700">.seo</code> 
+						youtube.com</span>
 					</div>
 					<div class="flex flex-col gap-1">
 						<label>Translate Text</label>
@@ -171,6 +223,23 @@
 						<select name="SELF" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700">
 							<option value="true" <%= config.settings.SELF === 'true' ? 'selected' : '' %>>True</option>
 							<option value="false" <%= config.settings.SELF === 'false' ? 'selected' : '' %>>False</option>
+						</select>
+					</div>
+					<div class="flex flex-col gap-1">
+						<label>Voice Language</label>
+						<select name="TO_VOICE" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700">
+							<option value="id" <%= config.settings.TO_VOICE === 'id' ? 'selected' : '' %>>Indonesia</option>
+							<option value="en" <%= config.settings.TO_VOICE === 'en' ? 'selected' : '' %>>English</option>
+							<option value="es" <%= config.settings.TO_VOICE === 'es' ? 'selected' : '' %>>Spanish</option>
+							<option value="fr" <%= config.settings.TO_VOICE === 'fr' ? 'selected' : '' %>>French</option>
+							<option value="de" <%= config.settings.TO_VOICE === 'de' ? 'selected' : '' %>>German</option>
+							<option value="it" <%= config.settings.TO_VOICE === 'it' ? 'selected' : '' %>>Italian</option>
+							<option value="ja" <%= config.settings.TO_VOICE === 'ja' ? 'selected' : '' %>>Japanese</option>
+							<option value="ko" <%= config.settings.TO_VOICE === 'ko' ? 'selected' : '' %>>Korean</option>
+							<option value="ru" <%= config.settings.TO_VOICE === 'ru' ? 'selected' : '' %>>Russian</option>
+							<option value="zh" <%= config.settings.TO_VOICE === 'zh' ? 'selected' : '' %>>Chinese</option>
+							<option value="ar" <%= config.settings.TO_VOICE === 'ar' ? 'selected' : '' %>>Arabic</option>
+							<option value="pt" <%= config.settings.TO_VOICE === 'pt' ? 'selected' : '' %>>Portuguese</option>
 						</select>
 					</div>
 					<div class="flex flex-col gap-1">

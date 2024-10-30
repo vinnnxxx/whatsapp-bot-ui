@@ -2,7 +2,14 @@
   "cmd": {
     "CMD_GEMINI": ".ai",
     "CMD_GEMINI_IMG": ".aiimg",
+    "CMD_STICKER": ".sticker",
+    "CMD_TO_VOICE": ".tovoice1",
     "CMD_COUNTRY": ".country",
+    "CMD_WEATHER": ".weather",
+    "CMD_SEO": ".seo",
+    "CMD_WIKIPEDIA_SEARCH": ".wiki-search",
+    "CMD_WIKIPEDIA_IMG": ".wiki-img",
+    "CMD_WIKIPEDIA_AI": ".wiki-ai",
     "CMD_TRANSLATE": ".translate-",
     "CMD_TWDLMP4": ".twdl-mp4",
     "CMD_TWDLMP3": ".twdl-mp3",
@@ -21,6 +28,7 @@
     "QR_URL": "true",
     "SELF": "true",
     "GEMINI_API": "AIzxxxxxxxxxxxxxxxx",
-    "GEMINI_PROMPT": "Anda harus berpura-pura menjadi Whastapp-Bot dan jawab pertanyaan menggunakan bahasa indonesia dengan singkat: "
+    "GEMINI_PROMPT": "Anda harus berpura-pura menjadi Whastapp-Bot dan jawab pertanyaan menggunakan bahasa indonesia dengan singkat: ",
+    "TO_VOICE": "id"
   }
 }

@@ -208,8 +208,15 @@ app.post('/settings', (req, res) => {
     const newCommands = {
         CMD_GEMINI: req.body.CMD_GEMINI,
         CMD_GEMINI_IMG: req.body.CMD_GEMINI_IMG,
+        CMD_STICKER: req.body.CMD_STICKER,
+        CMD_TO_VOICE: req.body.CMD_TO_VOICE,
         CMD_COUNTRY: req.body.CMD_COUNTRY,
         CMD_TRANSLATE: req.body.CMD_TRANSLATE,
+        CMD_WEATHER: req.body.CMD_WEATHER,
+        CMD_SEO: req.body.CMD_SEO,
+        CMD_WIKIPEDIA_SEARCH: req.body.CMD_WIKIPEDIA_SEARCH,
+        CMD_WIKIPEDIA_IMG: req.body.CMD_WIKIPEDIA_IMG,
+        CMD_WIKIPEDIA_AI: req.body.CMD_WIKIPEDIA_AI,
         CMD_TWDLMP4: req.body.CMD_TWDLMP4,
         CMD_TWDLMP3: req.body.CMD_TWDLMP3,
         CMD_IGDLMP4: req.body.CMD_IGDLMP4,
@@ -245,6 +252,7 @@ app.post('/settings-utl', (req, res) => {
         SELF: req.body.SELF,
         GEMINI_API: req.body.GEMINI_API,
         GEMINI_PROMPT: req.body.GEMINI_PROMPT,
+        TO_VOICE: req.body.TO_VOICE,
     };
 
     fs.readFile(configPath, 'utf8', (err, data) => {
