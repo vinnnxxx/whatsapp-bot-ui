@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FHY WaBotUI - Bot WhatsApp Otomatis</title>
+    <meta name="description" content="FHY WaBot adalah bot WhatsApp otomatis yang memudahkan komunikasi dengan fitur canggih dan kemudahan pengelolaan pesan secara efektif." />
+    <meta name="keywords" content="FHY WaBot, WhatsApp bot, bot otomatis, pengelolaan pesan WhatsApp, fitur chatbot, WhatsApp API, bot WA" />
+    <link rel="icon" type="image/png" href="/ss1.png" sizes="32x32" />
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-700 text-white">
+    <header class="w-full flex justify-between px-4 py-3 bg-gray-700">
+        <a href="/dashboard" class="flex gap-2 items-center">
+            <img src="/ss.png" class="h-9 w-auto" alt="FHY WaBotUI">
+        </a>
+        <div class="gap-2 items-center hidden md:flex">
+            <a href="/dashboard" class="relative bg-gray-900 hover:bg-gray-800 text-white p-2 rounded group">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3" />
+                </svg>
+                <span class="absolute -ml-6 left-1/2 transform -translate-x-1/2 translate-y-2 bg-gray-900 text-white text-xs rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">
+                    Back Dashboard
+                </span>
+            </a>
+        </div>
+    </header>
+    <div class="w-full px-4 pb-4">
+        <div class="w-full p-4 bg-gray-900 rounded">
+            <h2 class="text-2xl font-bold">Command Settings</h2>
+            <form action="/settings" method="POST" class="flex flex-col gap-4 mt-4">
+				<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+					<div class="flex flex-col gap-1">
+						<label>Gemini AI</label>
+						<input name="CMD_GEMINI" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_GEMINI %>" onkeydown="return event.key !== ' '" />
+						<span class="text-xs text-gray-300">e.g: 
+						<code class="bg-gray-700 px-1">.ai</code> 
+						hello</span>
+					</div>
+					<div class="flex flex-col gap-1">
+						<label>Gemini AI Image Analytic</label>
+						<input name="CMD_GEMINI_IMG" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_GEMINI_IMG %>" onkeydown="return event.key !== ' '" />
+						<span class="text-xs text-gray-300">e.g: (quote) 
+						<code class="bg-gray-700">.aiimg</code> 
+						what this?</span>
+					</div>
+					<div class="flex flex-col gap-1">
+						<label>Country Info</label>
+						<input name="CMD_COUNTRY" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_COUNTRY %>" onkeydown="return event.key !== ' '" />
+						<span class="text-xs text-gray-300">e.g: 
+						<code class="bg-gray-700">.country</code> 
+						indonesia</span>
+					</div>
+					<div class="flex flex-col gap-1">
+						<label>Translate Text</label>
+						<input name="CMD_TRANSLATE" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_TRANSLATE %>" onkeydown="return event.key !== ' '" />
+						<span class="text-xs text-gray-300">e.g: 
+						<code class="bg-gray-700">.translate-</code>id 
+						How are you</span>
+					</div>
+					<div class="flex flex-col gap-1">
+						<label>Twitter MP4 Download</label>
+						<input name="CMD_TWDLMP4" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_TWDLMP4 %>" onkeydown="return event.key !== ' '" />
+						<span class="text-xs text-gray-300">e.g: 
+						<code class="bg-gray-700">.twdl-mp4</code>
+						url</span>
+					</div>
+					<div class="flex flex-col gap-1">
+						<label>Twitter MP3 Download</label>
+						<input name="CMD_TWDLMP3" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_TWDLMP3 %>" onkeydown="return event.key !== ' '" />
+						<span class="text-xs text-gray-300">e.g: 
+						<code class="bg-gray-700">.twdl-mp3</code>
+						url</span>
+					</div>
+					<div class="flex flex-col gap-1">
+						<label>Instagram MP4 Download</label>
+						<input name="CMD_IGDLMP4" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_IGDLMP4 %>" onkeydown="return event.key !== ' '" />
+						<span class="text-xs text-gray-300">e.g: 
+						<code class="bg-gray-700">.igdl-mp4</code>
+						url</span>
+					</div>
+					<div class="flex flex-col gap-1">
+						<label>Instagram MP3 Download</label>
+						<input name="CMD_IGDLMP3" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_IGDLMP3 %>" onkeydown="return event.key !== ' '" />
+						<span class="text-xs text-gray-300">e.g: 
+						<code class="bg-gray-700">.igdl-mp3</code>
+						url</span>
+					</div>
+					<div class="flex flex-col gap-1">
+						<label>TikTok MP4 Download</label>
+						<input name="CMD_TKDLMP4" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_TKDLMP4 %>" onkeydown="return event.key !== ' '" />
+						<span class="text-xs text-gray-300">e.g: 
+						<code class="bg-gray-700">.tkdl-mp4</code>
+						 url</span>
+					</div>
+					<div class="flex flex-col gap-1">
+						<label>TikTok MP3 Download</label>
+						<input name="CMD_TKDLMP3" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_TKDLMP3 %>" onkeydown="return event.key !== ' '" />
+						<span class="text-xs text-gray-300">e.g: 
+						<code class="bg-gray-700">.tkdl-mp3</code>
+						 url</span>
+					</div>
+					<div class="flex flex-col gap-1">
+						<label>Vimeo MP4 Download</label>
+						<input name="CMD_VMDLMP4" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_VMDLMP4 %>" onkeydown="return event.key !== ' '" />
+						<span class="text-xs text-gray-300">e.g: 
+						<code class="bg-gray-700">.vmdl-mp4</code>
+						 url</span>
+					</div>
+					<div class="flex flex-col gap-1">
+						<label>Vimeo MP3 Download</label>
+						<input name="CMD_VMDLMP3" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_VMDLMP3 %>" onkeydown="return event.key !== ' '" />
+						<span class="text-xs text-gray-300">e.g: 
+						<code class="bg-gray-700">.vmdl-mp3</code>
+						 url</span>
+					</div>
+					<div class="flex flex-col gap-1">
+						<label>Facebook MP4 Download</label>
+						<input name="CMD_FBDLMP4" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_FBDLMP4 %>" onkeydown="return event.key !== ' '" />
+						<span class="text-xs text-gray-300">e.g: 
+						<code class="bg-gray-700">.fbdl-mp4</code>
+						 url</span>
+					</div>
+					<div class="flex flex-col gap-1">
+						<label>Facebook MP3 Download</label>
+						<input name="CMD_FBDLMP3" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_FBDLMP3 %>" onkeydown="return event.key !== ' '" />
+						<span class="text-xs text-gray-300">e.g: 
+						<code class="bg-gray-700">.fbdl-mp3</code>
+						 url</span>
+					</div>
+					<div class="flex flex-col gap-1">
+						<label>YouTube MP4 YouTube</label>
+						<input name="CMD_YTDLMP4" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_YTDLMP4 %>" onkeydown="return event.key !== ' '" />
+						<span class="text-xs text-gray-300">e.g: 
+						<code class="bg-gray-700">.ytdl-mp4</code>
+						 url</span>
+					</div>
+					<div class="flex flex-col gap-1">
+						<label>YouTube MP3 YouTube</label>
+						<input name="CMD_YTDLMP3" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_YTDLMP3 %>" onkeydown="return event.key !== ' '" />
+						<span class="text-xs text-gray-300">e.g: 
+						<code class="bg-gray-700">.ytdl-mp3</code>
+						 url</span>
+					</div>
+					<div class="flex flex-col gap-1">
+						<label>New Feature</label>
+						<input class="p-2 rounded bg-gray-700 w-full focus:outline-none border border-gray-700" value="Comming soon." readonly />
+					</div>
+				</div>
+				<div class="flex justify-end">
+					<button type="submit" class="flex bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded">
+						Save Changes
+					</button>
+				</div>
+			</form>
+        </div>
+		
+        <div class="w-full p-4 bg-gray-900 rounded mt-4">
+            <h2 class="text-2xl font-bold">Utility</h2>
+            <form action="/settings-utl" method="POST" class="flex flex-col gap-4 mt-4">
+				<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+					<div class="flex flex-col gap-1">
+						<label>QR Url</label>
+						<select name="QR_URL" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700">
+							<option value="true" <%= config.settings.QR_URL === 'true' ? 'selected' : '' %>>True</option>
+							<option value="false" <%= config.settings.QR_URL === 'false' ? 'selected' : '' %>>False</option>
+						</select>
+					</div>
+					<div class="flex flex-col gap-1">
+						<label>Self Mode</label>
+						<select name="SELF" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700">
+							<option value="true" <%= config.settings.SELF === 'true' ? 'selected' : '' %>>True</option>
+							<option value="false" <%= config.settings.SELF === 'false' ? 'selected' : '' %>>False</option>
+						</select>
+					</div>
+					<div class="flex flex-col gap-1">
+						<label>Gemini Api Keys</label>
+						<input name="GEMINI_API" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.settings.GEMINI_API %>" onkeydown="return event.key !== ' '" />
+					</div>
+					<div class="flex flex-col gap-1">
+						<label>Gemini Prompt</label>
+						<input name="GEMINI_PROMPT" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.settings.GEMINI_PROMPT %>" onkeydown="return event.key !== ' '" />
+					</div>
+					<div class="flex flex-col gap-1">
+						<label>New Feature</label>
+						<input class="p-2 rounded bg-gray-700 w-full focus:outline-none border border-gray-700" value="Comming soon." readonly />
+					</div>
+				</div>
+				<div class="flex justify-end">
+					<button type="submit" class="flex bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded">
+						Save Changes
+					</button>
+				</div>
+			</form>
+		</div>
+    </div>
+</body>
+</html>

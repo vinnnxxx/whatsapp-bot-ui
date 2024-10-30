@@ -1,6 +1,8 @@
-<img src="./public/images/ss.png">
+<img src="./public/demo3.png">
+<img src="./public/demo2.png">
+<img src="./public/demo1.png">
 
-# whatsapp-bot-ui
+# Watsapp Bot UI
 
 Proyek ini menyediakan antarmuka yang intuitif dan responsif, memungkinkan pengguna untuk mengelola percakapan, mengonfigurasi pengaturan bot, dan memantau aktivitas secara real-time
 
@@ -10,9 +12,11 @@ Proyek ini menyediakan antarmuka yang intuitif dan responsif, memungkinkan pengg
 git clone https://github.com/fitri-hy/whatsapp-bot-ui.git
 cd whatsapp-bot-ui
 npm install
-npm start
 ```
 
-Frontend: `http://localhost:3000/`
+### Menjalankan Server
+
+- Double klik pada file `start.bat`
+- Frontend: `http://localhost:3000/`
 
 *#Jangan lupa tinggalkan Bintang dan Fork untuk mendapatkan update terbaru.*
