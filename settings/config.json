@@ -6,7 +6,15 @@
     "CMD_TO_VOICE": ".tovoice",
     "CMD_COUNTRY": ".country",
     "CMD_WEATHER": ".weather",
+    "CMD_SSWEB": ".ssweb",
+    "CMD_SSMOBILE": ".ssmobile",
     "CMD_SEO": ".seo",
+    "CMD_GITHUB": ".github",
+    "CMD_OCR": ".ocr",
+    "CMD_COUNT_WORDS": ".count-words",
+    "CMD_QRCODE": ".qrcode",
+    "CMD_SURAH": ".surah",
+    "CMD_SURAH_DETAIL": ".surah-detail",
     "CMD_WIKIPEDIA_SEARCH": ".wiki-search",
     "CMD_WIKIPEDIA_IMG": ".wiki-img",
     "CMD_WIKIPEDIA_AI": ".wiki-ai",
@@ -26,8 +34,8 @@
   },
   "settings": {
     "QR_URL": "true",
-    "SELF": "false",
-    "GEMINI_API": "AIzaxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+    "SELF": "true",
+    "GEMINI_API": "AIzaxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
     "GEMINI_PROMPT": "Anda harus berpura-pura menjadi Whastapp-Bot dan jawab pertanyaan menggunakan bahasa indonesia dengan singkat: ",
     "TO_VOICE": "id"
   }

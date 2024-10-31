@@ -1,8 +1,12 @@
 const { downloadMediaMessage } = require('fhy-wabot');
 const { exec } = require('child_process');
+const puppeteer = require('puppeteer');
 const fs = require('fs');
 const path = require('path');
 const gTTS = require('gtts');
+const QRCode = require('qrcode');
+const { Octokit } = require('@octokit/rest');
+const Tesseract = require('tesseract.js');
 const configPath = path.join(__dirname, '../settings/config.json');
 const config = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
 const { GeminiMessage, GeminiImage } = require('./utils/Gemini');
@@ -12,9 +16,184 @@ const { Translate } = require('./utils/Translates');
 const { Weather } = require('./utils/Weather');
 const { CheckSEO } = require('./utils/SEO');
 const { WikipediaAI, WikipediaSearch, WikipediaImage } = require('./utils/Wikipedia');
+const { Surah, SurahDetails } = require('./utils/Quran');
 
 async function AdvancedResponse(messageContent, sender, sock, message) {
     
+	if (messageContent.startsWith('.ssweb ')) {
+		const domain = messageContent.replace('.ssweb ', '').trim();
+		await sock.sendMessage(sender, { react: { text: "⌛", key: message.key } });
+		try {
+			const browser = await puppeteer.launch();
+			const page = await browser.newPage();
+			await page.goto(`https://${domain}`, { waitUntil: 'networkidle2' });
+			const screenshotPath = path.join(__dirname, '../public/media/ssweb.jpg');
+			await page.screenshot({ path: screenshotPath, fullPage: false });
+			await browser.close();
+			const caption = `Screenshot of ${domain}`;
+			await new Promise(resolve => setTimeout(resolve, 2000));
+			await sock.sendMessage(sender, { image: { url: screenshotPath }, caption: caption }, { quoted: message });
+			fs.unlinkSync(screenshotPath);
+			await sock.sendMessage(sender, { react: { text: "✅", key: message.key } });
+		} catch (error) {
+			console.error('Error taking screenshot or sending message:', error);
+			await sock.sendMessage(sender, { react: { text: "❌", key: message.key } });
+		}
+	}
+	
+	if (messageContent.startsWith('.ssmobile ')) {
+		const domain = messageContent.replace('.ssmobile ', '').trim();
+		await sock.sendMessage(sender, { react: { text: "⌛", key: message.key } });
+		try {
+			const browser = await puppeteer.launch();
+			const page = await browser.newPage();
+			await page.setViewport({ width: 375, height: 667 });
+			await page.goto(`https://${domain}`, { waitUntil: 'networkidle2' });
+			const screenshotPath = path.join(__dirname, '../public/media/ssmobile.jpg');
+			await page.screenshot({ path: screenshotPath, fullPage: false });
+			await browser.close();
+			const caption = `Mobile screenshot of ${domain}`;
+			await new Promise(resolve => setTimeout(resolve, 2000));
+			await sock.sendMessage(sender, { image: { url: screenshotPath }, caption: caption }, { quoted: message });
+			fs.unlinkSync(screenshotPath);
+			await sock.sendMessage(sender, { react: { text: "✅", key: message.key } });
+		} catch (error) {
+			console.error('Error taking mobile screenshot or sending message:', error);
+			await sock.sendMessage(sender, { react: { text: "❌", key: message.key } });
+		}
+	}
+		
+	if (messageContent.startsWith(`${config.cmd.CMD_GITHUB} `)) {
+		const username = messageContent.replace(`${config.cmd.CMD_GITHUB} `, '').trim();
+		await sock.sendMessage(sender, { react: { text: "⌛", key: message.key } });
+		try {
+			const octokit = new Octokit();
+			const { data } = await octokit.rest.users.getByUsername({ username });
+			const responseProfile = `${data.avatar_url}`;
+			const responseMessage = `*User Github Info for ${data.login}:*\n\n` +
+				`- Name: ${data.name || 'No name available'}\n` +
+				`- Bio: ${data.bio || 'No bio available'}\n` +
+				`- Location: ${data.location || 'No location available'}\n` +
+				`- Company: ${data.company || 'No company available'}\n` +
+				`- Followers: ${data.followers}\n` +
+				`- Following: ${data.following}\n` +
+				`- Repositories: ${data.public_repos}\n` +
+				`- Public Gists: ${data.public_gists}\n` +
+				`- Blog: ${data.blog ? `${data.blog}` : 'No blog available'}\n` +
+				`- Created At: ${new Date(data.created_at).toLocaleDateString()}`;
+			await sock.sendMessage(sender, { image: { url: responseProfile }, caption: responseMessage }, { quoted: message });
+			await sock.sendMessage(sender, { react: { text: "✅", key: message.key } });
+		} catch (error) {
+			console.error('Error sending message:', error);
+			await sock.sendMessage(sender, { react: { text: "❌", key: message.key } });
+		}
+	}
+		
+	if (messageContent === `${config.cmd.CMD_OCR}`) {
+		const quotedMessage = message.message.extendedTextMessage?.contextInfo?.quotedMessage;
+		if (quotedMessage?.imageMessage) {
+			await sock.sendMessage(sender, { react: { text: "⌛", key: message.key } });
+			const inputFilePath = path.join(__dirname, '../public/media/ocr.jpg');
+			try {
+				const buffer = await downloadMediaMessage({ message: quotedMessage }, 'buffer');
+				fs.writeFileSync(inputFilePath, buffer);
+				const { data: { text } } = await Tesseract.recognize(inputFilePath, 'eng');
+				await sock.sendMessage(sender, { text: text || "Tidak ada teks yang dikenali." }, { quoted: message });
+			} catch (error) {
+				console.error('Error during OCR or processing image:', error);
+				await sock.sendMessage(sender, { react: { text: "❌", key: message.key } });
+			} finally {
+				if (fs.existsSync(inputFilePath)) {
+					fs.unlinkSync(inputFilePath);
+				}
+			}
+		} else {
+			console.error('Quoted message does not contain an image.');
+			await sock.sendMessage(sender, { react: { text: "❌", key: message.key } });
+		}
+	}
+		
+	if (messageContent.startsWith(`${config.cmd.CMD_QRCODE} `)) {
+		const text = messageContent.replace(`${config.cmd.CMD_QRCODE} `, '').trim();
+		await sock.sendMessage(sender, { react: { text: "⌛", key: message.key } });
+		try {
+			const qrCodeFilePath = path.join(__dirname, '../public/media/qrcode.jpg');
+			await QRCode.toFile(qrCodeFilePath, text);
+			const caption = `Here is your QR code for: "${text}"`;
+			await sock.sendMessage(sender, { image: { url: qrCodeFilePath }, caption: caption }, { quoted: message });
+			fs.unlink(qrCodeFilePath, (err) => {
+				if (err) {
+					console.error('Error deleting QR code file:', err);
+				} else {
+					console.log('QR code file deleted successfully');
+				}
+			});
+			await sock.sendMessage(sender, { react: { text: "✅", key: message.key } });
+		} catch (error) {
+			console.error('Error generating or sending QR code:', error);
+			await sock.sendMessage(sender, { react: { text: "❌", key: message.key } });
+		}
+	}
+
+	if (messageContent.startsWith(`${config.cmd.CMD_COUNT_WORDS} `)) {
+		const text = messageContent.replace(`${config.cmd.CMD_COUNT_WORDS} `, '').trim();
+		await sock.sendMessage(sender, { react: { text: "⌛", key: message.key } });
+		try {
+			const wordCount = text ? text.split(/\s+/).length : 0;
+			const characterCount = text.length;
+			const spaceCount = (text.match(/\s/g) || []).length;
+			const symbolCount = (text.match(/[^\w\s]/g) || []).length;
+			const paragraphCount = text.split(/\n+/).length;
+			const numberCount = (text.match(/\d+/g) || []).length;
+			const responseMessage = 
+				'*Text Analysis* \n\n' +
+				`- Word Count: ${wordCount}\n` +
+				`- Character Count: ${characterCount}\n` +
+				`- Space Count: ${spaceCount}\n` +
+				`- Symbol Count: ${symbolCount}\n` +
+				`- Paragraph Count: ${paragraphCount}\n` +
+				`- Number Count: ${numberCount}`;
+			await sock.sendMessage(sender, { text: responseMessage }, { quoted: message });
+			await sock.sendMessage(sender, { react: { text: "✅", key: message.key } });
+		} catch (error) {
+			console.error('Error sending message:', error);
+			await sock.sendMessage(sender, { react: { text: "❌", key: message.key } });
+		}
+	}
+		
+	if (messageContent.startsWith(`${config.cmd.CMD_SURAH} `)) {
+		const surahId = parseInt(messageContent.split(' ')[1]);
+		await sock.sendMessage(sender, { react: { text: "⌛", key: message.key } });	
+		try {
+			const responseMessage = await Surah(surahId); 
+			await sock.sendMessage(sender, { text: responseMessage }, { quoted: message });
+			await sock.sendMessage(sender, { react: { text: "✅", key: message.key } });
+		} catch (error) {
+			console.error('Error sending message:', error);
+			await sock.sendMessage(sender, { react: { text: "❌", key: message.key } });
+		}
+	}
+	
+	if (messageContent.startsWith(`${config.cmd.CMD_SURAH_DETAIL} `)) {
+		const [surahPart, ayahPart] = messageContent.split(' ')[1].split(':');
+		const surahId = parseInt(surahPart);
+		const ayahId = ayahPart ? parseInt(ayahPart) : null;
+		await sock.sendMessage(sender, { react: { text: "⌛", key: message.key } });
+		try {
+			if (ayahId) {
+				const responseMessage = await SurahDetails(surahId, ayahId);
+				await sock.sendMessage(sender, { text: responseMessage }, { quoted: message });
+			} else {
+				const responseMessage = await getSurahDetails(surahId);
+				await sock.sendMessage(sender, { text: responseMessage }, { quoted: message });
+			}
+			await sock.sendMessage(sender, { react: { text: "✅", key: message.key } });
+		} catch (error) {
+			console.error('Error sending message:', error);
+			await sock.sendMessage(sender, { react: { text: "❌", key: message.key } });
+		}
+	}
+		
 	if (messageContent.startsWith(`${config.cmd.CMD_TO_VOICE} `)) {
 		const textToConvert = messageContent.replace(`${config.cmd.CMD_TO_VOICE} `, '');
 		await sock.sendMessage(sender, { react: { text: "⌛", key: message.key } });

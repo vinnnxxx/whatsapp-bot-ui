@@ -17,10 +17,16 @@ Proyek ini menyediakan antarmuka yang intuitif dan responsif, memungkinkan pengg
 - Text To Voice
 - Country Info
 - Weather Info
-- Seo Info
 - Wiki Searching
 - Wiki Image
 - Wiki AI
+- Seo Info
+- Screenshoot Web / Mobile
+- Github Stalker
+- OCR (Image To Text)
+- Count Words
+- QRCode Generator
+- Surah / Ayah Detail
 - Translate Text
 - Twiter Downloader (MP4/MP3)
 - Instagram Downloader (MP4/MP3)
@@ -28,6 +34,7 @@ Proyek ini menyediakan antarmuka yang intuitif dan responsif, memungkinkan pengg
 - Vimeo Downloader (MP4/MP3)
 - Facebook Downloader (MP4/MP3)
 - Youtube Downloader (MP4/MP3)
+- New Features (Comming soon...)
 
 ### Instalasi
 
