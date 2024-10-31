@@ -26,7 +26,7 @@
   },
   "settings": {
     "QR_URL": "true",
-    "SELF": "true",
+    "SELF": "false",
     "GEMINI_API": "AIzxxxxxxxxxxxxxxxx",
     "GEMINI_PROMPT": "Anda harus berpura-pura menjadi Whastapp-Bot dan jawab pertanyaan menggunakan bahasa indonesia dengan singkat: ",
     "TO_VOICE": "id"

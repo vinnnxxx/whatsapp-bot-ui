@@ -1,6 +1,8 @@
-<img src="./public/demo3.png">
-<img src="./public/demo2.png">
-<img src="./public/demo1.png">
+<img src="./public/1.png">
+<img src="./public/2.png">
+<img src="./public/3.png">
+<img src="./public/4.png">
+<img src="./public/5.png">
 
 # Watsapp Bot UI
 
@@ -39,9 +41,3 @@ npm install
 
 - Double klik pada file `start.bat`
 - Frontend: `http://localhost:3000/`
-
-### Custom Command Auto Response
-
-Edit file `/settings/auto_response.json`
-
-*#Jangan lupa tinggalkan Bintang dan Fork untuk mendapatkan update terbaru.*
