@@ -131,35 +131,71 @@
             <h2 class="text-xl font-bold mb-4 text-center">Confirmation</h2>
             <p class="mb-4 text-center">Are you sure you want to reload the server?</p>
             <div class="flex justify-center gap-4 mt-6">
-                <button id="confirmButton" class="bg-emerald-600 hover:bg-emerald-700 py-2 px-4 rounded">Yes</button>
-                <button id="cancelButton" class="bg-rose-700 hover:bg-rose-600 py-2 px-4 rounded">No</button>
+                <button id="confirmButton" class="flex gap-2 items-center bg-emerald-600 hover:bg-emerald-700 py-2 px-4 rounded">
+					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6">
+						<path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+					</svg>
+					<span>Yes</span>
+				</button>
+                <button id="cancelButton" class="flex gap-2 items-center bg-rose-700 hover:bg-rose-600 py-2 px-4 rounded">
+					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6">
+					  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+					</svg>
+					<span>No</span>
+				</button>
             </div>
             <p id="countdownText" class="px-4 py-2 bg-amber-600 rounded mt-4 text-center text-sm hidden">Waiting for <span id="countdown" class="font-bold">3</span> second...</p>
         </div>
     </div>
+	
+	<div id="clearHistoryModal" class="hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+		<div class="bg-gray-700 p-6 rounded-lg">
+			<h2 class="text-xl  mb-4 font-bold text-center">Clear History</h2>
+			<p>Are you sure you want to clear the message history?</p>
+			<div class="flex justify-center items-center mt-4 gap-2">
+				<button id="confirmClearHistoryBtn" class="flex gap-2 items-center px-4 py-2 bg-rose-700 hover:bg-rose-800 rounded text-white">
+					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6">
+						<path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+					</svg>
+					<span>Yes</span>
+				</button>
+				<button id="cancelClearHistoryBtn" class="flex gap-2 items-center px-4 py-2 bg-gray-800 hover:bg-gray-900 rounded text-white">
+					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6">
+					  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+					</svg>
+					<span>No</span>
+				</button>
+			</div>
+		</div>
+	</div>
 
-    <script>
-        const restartButton = document.getElementById('restartServerButton');
-        const confirmationModal = document.getElementById('confirmationModal');
-        const confirmButton = document.getElementById('confirmButton');
-        const cancelButton = document.getElementById('cancelButton');
-        const countdownText = document.getElementById('countdownText');
-        const countdownElement = document.getElementById('countdown');
+	<script>
+		const restartButton = document.getElementById('restartServerButton');
+		const confirmationModal = document.getElementById('confirmationModal');
+		const confirmButton = document.getElementById('confirmButton');
+		const cancelButton = document.getElementById('cancelButton');
+		const countdownText = document.getElementById('countdownText');
+		const countdownElement = document.getElementById('countdown');
 		
+		const clearHistoryBtn = document.getElementById('clearHistoryBtn');
+		const clearHistoryModal = document.getElementById('clearHistoryModal');
+		const cancelClearHistoryBtn = document.getElementById('cancelClearHistoryBtn');
+		const confirmClearHistoryBtn = document.getElementById('confirmClearHistoryBtn');
+
 		const toggleSidebarButton = document.getElementById('toggleSidebar');
-        const sidebar = document.getElementById('sidebar');
-        const closeSidebarButton = document.getElementById('closeSidebar');
+		const sidebar = document.getElementById('sidebar');
+		const closeSidebarButton = document.getElementById('closeSidebar');
 
-        toggleSidebarButton.addEventListener('click', () => {
-            sidebar.classList.toggle('-translate-x-full');
-        });
+		toggleSidebarButton.addEventListener('click', () => {
+			sidebar.classList.toggle('-translate-x-full');
+		});
 
-        closeSidebarButton.addEventListener('click', () => {
-            sidebar.classList.add('-translate-x-full');
-        });
+		closeSidebarButton.addEventListener('click', () => {
+			sidebar.classList.add('-translate-x-full');
+		});
 		
 		const ws = new WebSocket(`ws://${window.location.host}`);
-		
+
 		ws.onmessage = (event) => {
 			const data = JSON.parse(event.data);
 			if (data.messageData) {
@@ -188,13 +224,9 @@
 					document.getElementById('privateMessageContainer').appendChild(messageDiv);
 				}
 
-				fetch('/save-history', {
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json'
-					},
-					body: JSON.stringify(messageData)
-				});
+				const messages = JSON.parse(localStorage.getItem('messageHistory')) || [];
+				messages.push(messageData);
+				localStorage.setItem('messageHistory', JSON.stringify(messages));
 
 				const activeContainer = messageData.group ? 'groupMessageContainer' : 'privateMessageContainer';
 				const container = document.getElementById(activeContainer);
@@ -202,9 +234,9 @@
 			}
 		};
 
-        ws.onclose = () => {
-            console.log('WebSocket connection closed');
-        };
+		ws.onclose = () => {
+			console.log('WebSocket connection closed');
+		};
 
 		document.getElementById('deleteAuthInfoBtn').addEventListener('click', () => {
 			fetch('/delete-auth-info', { method: 'DELETE' })
@@ -224,62 +256,62 @@
 		});
 
 		restartButton.onclick = () => {
-            confirmationModal.classList.remove('hidden');
-        };
-		
+			confirmationModal.classList.remove('hidden');
+		};
+
 		confirmButton.onclick = () => {
-            confirmButton.classList.add('hidden');
-            cancelButton.classList.add('hidden');
-            countdownText.classList.remove('hidden');
+			confirmButton.classList.add('hidden');
+			cancelButton.classList.add('hidden');
+			countdownText.classList.remove('hidden');
 
-            fetch('/restart-server', {
-                method: 'POST'
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    console.log(data.message);
+			fetch('/restart-server', {
+				method: 'POST'
+			})
+			.then(response => response.json())
+			.then(data => {
+				if (data.success) {
+					console.log(data.message);
 
-                    let countdown = 3;
-                    const countdownInterval = setInterval(() => {
-                        if (countdown > 0) {
-                            countdownElement.textContent = countdown;
-                            countdown--;
-                        } else {
-                            clearInterval(countdownInterval);
-                            location.reload();
-                        }
-                    }, 1000);
-                }
-            })
-            .catch(error => console.error("Error restarting server:", error));
-        };
-		
-		cancelButton.onclick = () => {
-            confirmationModal.classList.add('hidden');
-        };
-
-        document.getElementById('clearHistoryBtn').addEventListener('click', () => {
-			const confirmation = confirm("Apakah Anda yakin ingin menghapus riwayat pesan?");
-			if (confirmation) {
-				document.getElementById('groupMessageContainer').innerHTML = '';
-				document.getElementById('privateMessageContainer').innerHTML = '';
-
-				fetch('/clear-history', { method: 'DELETE' })
-					.then(response => {
-						if (response.ok) {
-							alert('Riwayat pesan berhasil dihapus');
+					let countdown = 3;
+					const countdownInterval = setInterval(() => {
+						if (countdown > 0) {
+							countdownElement.textContent = countdown;
+							countdown--;
 						} else {
-							alert('Gagal menghapus riwayat pesan');
+							clearInterval(countdownInterval);
+							location.reload();
 						}
-					})
-					.catch(error => {
-						console.error('Error clearing message history:', error);
-						alert('Error clearing message history');
-					});
-			}
+					}, 1000);
+				}
+			})
+			.catch(error => console.error("Error restarting server:", error));
+		};
+
+		cancelButton.onclick = () => {
+			confirmationModal.classList.add('hidden');
+		};
+
+		clearHistoryBtn.addEventListener('click', () => {
+			clearHistoryModal.classList.remove('hidden');
+		});
+		
+		cancelClearHistoryBtn.addEventListener('click', () => {
+			clearHistoryModal.classList.add('hidden');
 		});
 
-    </script>
+		confirmClearHistoryBtn.addEventListener('click', () => {
+			document.getElementById('groupMessageContainer').innerHTML = '';
+			document.getElementById('privateMessageContainer').innerHTML = '';
+			localStorage.removeItem('messageHistory');
+			clearHistoryModal.classList.add('hidden');
+			const successMessage = document.createElement('div');
+			successMessage.classList.add('fixed', 'top-4', 'right-4', 'bg-green-500', 'text-white', 'p-2', 'rounded');
+			successMessage.textContent = 'Riwayat pesan berhasil dihapus dari localStorage';
+			document.body.appendChild(successMessage);
+			setTimeout(() => {
+				successMessage.remove();
+			}, 3000);
+		});
+	</script>
 </body>
 </html>

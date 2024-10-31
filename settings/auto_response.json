@@ -1,150 +1,158 @@
 {
   "text": {
-    "!text": { 
-      "response": "pong!", 
-      "reply": false 
+    "!text": {
+      "response": "pong!",
+      "reply": false
     }
   },
   "textReact": {
-    "!text-react": { 
+    "!text-react": {
       "response": "I sent text with reaction!",
-      "preReact": "⏳", 
-      "postReact": "✅", 
-      "errReact": "❌",  
-      "reply": false 
+      "preReact": "⏳",
+      "postReact": "✅",
+      "errReact": "❌",
+      "reply": false
     }
   },
   "mention": {
-    "!mention": { 
-      "response": "@628xxxxxxxx", 
-      "mention": "628xxxxxxxx@s.whatsapp.net", 
-      "reply": false 
+    "!mention": {
+      "response": "@628xxxxxxxx",
+      "mention": "628xxxxxxxx@s.whatsapp.net",
+      "reply": false
     }
   },
   "mentionReact": {
-    "!mention-react": { 
-      "response": "@628xxxxxxxx", 
-      "mention": "628xxxxxxxx@s.whatsapp.net", 
-      "preReact": "⏳", 
-      "postReact": "✅", 
-      "errReact": "❌", 
-      "reply": false 
+    "!mention-react": {
+      "response": "@628xxxxxxxx",
+      "mention": "628xxxxxxxx@s.whatsapp.net",
+      "preReact": "⏳",
+      "postReact": "✅",
+      "errReact": "❌",
+      "reply": false
     }
   },
   "location": {
-    "!location": { 
+    "!location": {
       "latitude": 24.121231,
-      "longitude": 55.1121221, 
-      "reply": false 
+      "longitude": 55.1121221,
+      "reply": false
     }
   },
   "locationReact": {
-    "!location-react": { 
-      "latitude": "24.121231", 
-      "longitude": "55.1121221", 
-      "preReact": "⏳", 
-      "postReact": "✅", 
-      "errReact": "❌",  
-      "reply": false 
+    "!location-react": {
+      "latitude": "24.121231",
+      "longitude": "55.1121221",
+      "preReact": "⏳",
+      "postReact": "✅",
+      "errReact": "❌",
+      "reply": false
     }
   },
   "images": {
-    "!image": { 
+    "!image": {
       "url": "./public/media/default.jpg",
       "caption": "I sent caption image!",
-      "reply": false 
+      "reply": false
     }
   },
   "imagesReact": {
-    "!image-react": { 
+    "!image-react": {
       "url": "./public/media/default.jpg",
       "caption": "I sent caption image with reaction!",
-      "preReact": "⏳", 
-      "postReact": "✅", 
-      "errReact": "❌", 
-      "reply": false 
+      "preReact": "⏳",
+      "postReact": "✅",
+      "errReact": "❌",
+      "reply": false
     }
   },
   "video": {
-    "!video": { 
+    "!video": {
       "url": "./public/media/default.mp4",
       "caption": "I sent caption video!",
-      "reply": false 
+      "reply": false
     }
   },
   "videoReact": {
-    "!video-react": { 
+    "!video-react": {
       "url": "./public/media/default.mp4",
       "caption": "I sent caption video with reaction!",
-      "preReact": "⏳", 
-      "postReact": "✅", 
-      "errReact": "❌", 
-      "reply": false 
+      "preReact": "⏳",
+      "postReact": "✅",
+      "errReact": "❌",
+      "reply": false
     }
   },
   "audio": {
-    "!audio": { 
+    "!audio": {
       "url": "./public/media/default.mp3",
       "caption": "I sent caption audio!",
-      "reply": false 
+      "reply": false
     }
   },
   "audioReact": {
-    "!audio-react": { 
+    "!audio-react": {
       "url": "./public/media/default.mp3",
       "caption": "I sent caption audio with caption!",
-      "preReact": "⏳", 
-      "postReact": "✅", 
-      "errReact": "❌", 
-      "reply": true 
+      "preReact": "⏳",
+      "postReact": "✅",
+      "errReact": "❌",
+      "reply": true
     }
   },
   "polling": {
-    "!poll": { 
+    "!poll": {
       "poll": {
-        "name": "Title Polling:",
-        "values": ["Option 1", "Option 2", "Option 3"],
+        "name": "Title Polling",
+        "values": [
+          "Option 1",
+          "Option 2",
+          "Option 3"
+        ],
         "selectableCount": 1
       },
-      "reply": false 
+      "reply": false
     }
   },
   "pollingReact": {
-    "!poll-react": { 
+    "!poll-react": {
       "poll": {
-        "name": "Title Polling:",
-        "values": ["Option 1", "Option 2", "Option 3"],
+        "name": "Title Polling",
+        "values": [
+          "Option 1",
+          "Option 2",
+          "Option 3"
+        ],
         "selectableCount": 1
       },
-      "preReact": "⏳", 
-      "postReact": "✅", 
-      "errReact": "❌", 
-      "reply": false 
+      "preReact": "⏳",
+      "postReact": "✅",
+      "errReact": "❌",
+      "reply": false
     }
   },
   "vcard": {
-    "!vcard": { 
+    "!vcard": {
       "contacts": {
         "fullName": "Your Name",
         "organization": "Organization Name",
         "phoneId": "+62 8xx xxxx xxxx",
         "whatsappId": "628xxxxxxxxxx"
       },
-      "reply": false 
+      "reply": false
     }
   },
   "vcardReact": {
-    "!vcard-react": { 
+    "!vcard-react": {
       "contacts": {
         "fullName": "Your Name",
         "organization": "Organization Name",
         "phoneId": "+62 8xx xxxx xxxx",
         "whatsappId": "628xxxxxxxxxx"
       },
-      "preReact": "⏳", 
-      "postReact": "✅", 
-      "errReact": "❌", 
-      "reply": false 
+      "preReact": "⏳",
+      "postReact": "✅",
+      "errReact": "❌",
+      "reply": false
     }
   }
 }

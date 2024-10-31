@@ -10,6 +10,8 @@ const AdvancedResponse = require('./messages/advancedResponse');
 const AutoResponse = require('./settings/auto_response.json');
 const configPath = path.join(__dirname, './settings/config.json');
 const config = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
+const configAutoResponsePath = path.join(__dirname, './settings/auto_response.json');
+const configAutoResponse = JSON.parse(fs.readFileSync(configAutoResponsePath, 'utf-8'));
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -195,12 +197,28 @@ app.get('/settings', (req, res) => {
     if (sessionFiles.length === 0) {
         return res.redirect('/');
     }
-    fs.readFile(configPath, 'utf8', (err, data) => {
+    fs.readFile(configPath, 'utf8', (err, configData) => {
         if (err) {
             return res.status(500).json({ error: 'Failed to read config file' });
         }
-        const config = JSON.parse(data);
-        res.render('settings', { config });
+        fs.readFile(configAutoResponsePath, 'utf8', (err, autoResponseData) => {
+            if (err) {
+                return res.status(500).json({ error: 'Failed to read auto response file' });
+            }
+            const config = JSON.parse(configData);
+            const autoResponse = JSON.parse(autoResponseData);
+            res.render('settings', { config, autoResponse });
+        });
+    });
+});
+
+app.post('/settings/update', (req, res) => {
+    const updatedAutoResponse = req.body.autoCommand;
+    fs.writeFile(configAutoResponsePath, updatedAutoResponse, 'utf8', (err) => {
+        if (err) {
+            return res.status(500).json({ error: 'Failed to save auto response file' });
+        }
+        res.redirect('/settings');
     });
 });
 
@@ -290,38 +308,5 @@ app.delete('/delete-auth-info', (req, res) => {
         setTimeout(() => {
             process.exit(0);
         }, 1000);
-    });
-});
-
-app.post('/save-history', (req, res) => {
-    const messageData = req.body;
-    const filePath = path.join(__dirname, './auth_info/history-message.json');
-
-    fs.access(filePath, fs.constants.F_OK, (err) => {
-        if (err) {
-            fs.writeFile(filePath, JSON.stringify([], null, 2), (writeErr) => {
-                if (writeErr) {
-                    console.error('Error creating history file:', writeErr);
-                    return res.status(500).json({ success: false, message: 'Internal Server Error' });
-                }
-                // console.log('History file created:', filePath);
-                saveMessageToHistory(messageData, filePath, res);
-            });
-        } else {
-            saveMessageToHistory(messageData, filePath, res);
-        }
-    });
-});
-
-app.delete('/clear-history', (req, res) => {
-    const filePath = path.join(__dirname, './auth_info/history-message.json');
-
-    fs.unlink(filePath, (err) => {
-        if (err) {
-            console.error('Error deleting history file:', err);
-            return res.status(500).json({ success: false, message: 'Internal Server Error' });
-        }
-
-        res.json({ success: true, message: 'Message history cleared' });
     });
 });

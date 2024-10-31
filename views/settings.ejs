@@ -8,6 +8,31 @@
     <meta name="keywords" content="FHY WaBot, WhatsApp bot, bot otomatis, pengelolaan pesan WhatsApp, fitur chatbot, WhatsApp API, bot WA" />
     <link rel="icon" type="image/png" href="/ss1.png" sizes="32x32" />
     <script src="https://cdn.tailwindcss.com"></script>
+	
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+	
+	<style>
+		label > select {
+			border: 1px solid rgb(55 65 81) !important;
+			background-color: rgb(31 41 55) !important;
+		}
+		label > input {
+			border: 1px solid rgb(55, 65, 81) !important;
+			background-color: rgb(31, 41, 55) !important;
+			outline: none; 
+		}
+		label > input:focus {
+			outline: none; 
+		}
+		.even {
+			background-color: rgb(31, 41, 55, 0.5) !important;
+		}
+		thead > tr {
+			background-color: rgb(55 65 81) !important;
+		}
+	</style>
 </head>
 <body class="bg-gray-700 text-white">
     <header class="w-full flex justify-between px-4 py-3 bg-gray-700">
@@ -25,243 +50,414 @@
             </a>
         </div>
     </header>
+	
     <div class="w-full px-4 pb-4">
-        <div class="w-full p-4 bg-gray-900 rounded">
-            <h2 class="text-2xl font-bold">Command Settings</h2>
-            <form action="/settings" method="POST" class="flex flex-col gap-4 mt-4">
-				<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-					<div class="flex flex-col gap-1">
-						<label>Gemini AI</label>
-						<input name="CMD_GEMINI" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_GEMINI %>" onkeydown="return event.key !== ' '" />
-						<span class="text-xs text-gray-300">e.g: 
-						<code class="bg-gray-700 px-1">.ai</code> 
-						hello</span>
-					</div>
-					<div class="flex flex-col gap-1">
-						<label>Gemini AI Image Analytic</label>
-						<input name="CMD_GEMINI_IMG" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_GEMINI_IMG %>" onkeydown="return event.key !== ' '" />
-						<span class="text-xs text-gray-300">e.g: (quote) 
-						<code class="bg-gray-700">.aiimg</code> 
-						what this?</span>
-					</div>
-					<div class="flex flex-col gap-1">
-						<label>Sticker Maker</label>
-						<input name="CMD_STICKER" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_STICKER %>" onkeydown="return event.key !== ' '" />
-						<span class="text-xs text-gray-300">e.g: (quote) 
-						<code class="bg-gray-700">.sticker</code>
-						</span>
-					</div>
-					<div class="flex flex-col gap-1">
-						<label>Text to Voice</label>
-						<input name="CMD_TO_VOICE" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_TO_VOICE %>" onkeydown="return event.key !== ' '" />
-						<span class="text-xs text-gray-300">e.g: 
-						<code class="bg-gray-700">.tovoice</code>
-						halo apa kabar!
-						</span>
-					</div>
-					<div class="flex flex-col gap-1">
-						<label>Country Info</label>
-						<input name="CMD_COUNTRY" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_COUNTRY %>" onkeydown="return event.key !== ' '" />
-						<span class="text-xs text-gray-300">e.g: 
-						<code class="bg-gray-700">.country</code> 
-						indonesia</span>
-					</div>
-					<div class="flex flex-col gap-1">
-						<label>Weather Info</label>
-						<input name="CMD_WEATHER" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_WEATHER %>" onkeydown="return event.key !== ' '" />
-						<span class="text-xs text-gray-300">e.g: 
-						<code class="bg-gray-700">.weather</code> 
-						jakarta</span>
-					</div>
-					
-					<div class="flex flex-col gap-1">
-						<label>Wiki Search</label>
-						<input name="CMD_WIKIPEDIA_SEARCH" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_WIKIPEDIA_SEARCH %>" onkeydown="return event.key !== ' '" />
-						<span class="text-xs text-gray-300">e.g: 
-						<code class="bg-gray-700">.wiki-search</code> 
-						indonesia</span>
-					</div>
-					<div class="flex flex-col gap-1">
-						<label>Wiki Image</label>
-						<input name="CMD_WIKIPEDIA_IMG" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_WIKIPEDIA_IMG %>" onkeydown="return event.key !== ' '" />
-						<span class="text-xs text-gray-300">e.g: 
-						<code class="bg-gray-700">.wiki-img</code> 
-						indonesia</span>
-					</div>
-					<div class="flex flex-col gap-1">
-						<label>Wiki AI</label>
-						<input name="CMD_WIKIPEDIA_AI" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_WIKIPEDIA_AI %>" onkeydown="return event.key !== ' '" />
-						<span class="text-xs text-gray-300">e.g: 
-						<code class="bg-gray-700">.wiki-ai</code> 
-						indonesia</span>
-					</div>
-					
-					<div class="flex flex-col gap-1">
-						<label>SEO Info</label>
-						<input name="CMD_SEO" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_SEO %>" onkeydown="return event.key !== ' '" />
-						<span class="text-xs text-gray-300">e.g: 
-						<code class="bg-gray-700">.seo</code> 
-						youtube.com</span>
-					</div>
-					<div class="flex flex-col gap-1">
-						<label>Translate Text</label>
-						<input name="CMD_TRANSLATE" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_TRANSLATE %>" onkeydown="return event.key !== ' '" />
-						<span class="text-xs text-gray-300">e.g: 
-						<code class="bg-gray-700">.translate-</code>id 
-						How are you</span>
-					</div>
-					<div class="flex flex-col gap-1">
-						<label>Twitter MP4 Download</label>
-						<input name="CMD_TWDLMP4" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_TWDLMP4 %>" onkeydown="return event.key !== ' '" />
-						<span class="text-xs text-gray-300">e.g: 
-						<code class="bg-gray-700">.twdl-mp4</code>
-						url</span>
-					</div>
-					<div class="flex flex-col gap-1">
-						<label>Twitter MP3 Download</label>
-						<input name="CMD_TWDLMP3" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_TWDLMP3 %>" onkeydown="return event.key !== ' '" />
-						<span class="text-xs text-gray-300">e.g: 
-						<code class="bg-gray-700">.twdl-mp3</code>
-						url</span>
-					</div>
-					<div class="flex flex-col gap-1">
-						<label>Instagram MP4 Download</label>
-						<input name="CMD_IGDLMP4" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_IGDLMP4 %>" onkeydown="return event.key !== ' '" />
-						<span class="text-xs text-gray-300">e.g: 
-						<code class="bg-gray-700">.igdl-mp4</code>
-						url</span>
-					</div>
-					<div class="flex flex-col gap-1">
-						<label>Instagram MP3 Download</label>
-						<input name="CMD_IGDLMP3" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_IGDLMP3 %>" onkeydown="return event.key !== ' '" />
-						<span class="text-xs text-gray-300">e.g: 
-						<code class="bg-gray-700">.igdl-mp3</code>
-						url</span>
-					</div>
-					<div class="flex flex-col gap-1">
-						<label>TikTok MP4 Download</label>
-						<input name="CMD_TKDLMP4" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_TKDLMP4 %>" onkeydown="return event.key !== ' '" />
-						<span class="text-xs text-gray-300">e.g: 
-						<code class="bg-gray-700">.tkdl-mp4</code>
-						 url</span>
-					</div>
-					<div class="flex flex-col gap-1">
-						<label>TikTok MP3 Download</label>
-						<input name="CMD_TKDLMP3" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_TKDLMP3 %>" onkeydown="return event.key !== ' '" />
-						<span class="text-xs text-gray-300">e.g: 
-						<code class="bg-gray-700">.tkdl-mp3</code>
-						 url</span>
-					</div>
-					<div class="flex flex-col gap-1">
-						<label>Vimeo MP4 Download</label>
-						<input name="CMD_VMDLMP4" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_VMDLMP4 %>" onkeydown="return event.key !== ' '" />
-						<span class="text-xs text-gray-300">e.g: 
-						<code class="bg-gray-700">.vmdl-mp4</code>
-						 url</span>
-					</div>
-					<div class="flex flex-col gap-1">
-						<label>Vimeo MP3 Download</label>
-						<input name="CMD_VMDLMP3" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_VMDLMP3 %>" onkeydown="return event.key !== ' '" />
-						<span class="text-xs text-gray-300">e.g: 
-						<code class="bg-gray-700">.vmdl-mp3</code>
-						 url</span>
-					</div>
-					<div class="flex flex-col gap-1">
-						<label>Facebook MP4 Download</label>
-						<input name="CMD_FBDLMP4" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_FBDLMP4 %>" onkeydown="return event.key !== ' '" />
-						<span class="text-xs text-gray-300">e.g: 
-						<code class="bg-gray-700">.fbdl-mp4</code>
-						 url</span>
-					</div>
-					<div class="flex flex-col gap-1">
-						<label>Facebook MP3 Download</label>
-						<input name="CMD_FBDLMP3" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_FBDLMP3 %>" onkeydown="return event.key !== ' '" />
-						<span class="text-xs text-gray-300">e.g: 
-						<code class="bg-gray-700">.fbdl-mp3</code>
-						 url</span>
-					</div>
-					<div class="flex flex-col gap-1">
-						<label>YouTube MP4 YouTube</label>
-						<input name="CMD_YTDLMP4" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_YTDLMP4 %>" onkeydown="return event.key !== ' '" />
-						<span class="text-xs text-gray-300">e.g: 
-						<code class="bg-gray-700">.ytdl-mp4</code>
-						 url</span>
-					</div>
-					<div class="flex flex-col gap-1">
-						<label>YouTube MP3 YouTube</label>
-						<input name="CMD_YTDLMP3" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_YTDLMP3 %>" onkeydown="return event.key !== ' '" />
-						<span class="text-xs text-gray-300">e.g: 
-						<code class="bg-gray-700">.ytdl-mp3</code>
-						 url</span>
-					</div>
-					<div class="flex flex-col gap-1">
-						<label>New Feature</label>
-						<input class="p-2 rounded bg-gray-700 w-full focus:outline-none border border-gray-700" value="Comming soon." readonly />
-					</div>
-				</div>
-				<div class="flex justify-end">
-					<button type="submit" class="flex bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded">
-						Save Changes
-					</button>
-				</div>
-			</form>
+	
+		<div class="tabs mb-4">
+            <ul class="flex border-b border-gray-900">
+                <li class="mr-1">
+                    <a href="#" data-tab="tab-settings" class="tab-link bg-gray-900 inline-block py-2 px-4 text-white font-semibold hover:bg-gray-800">
+						Settings
+					</a>
+                </li>
+                <li class="mr-1">
+                    <a href="#" data-tab="tab-command" class="tab-link bg-gray-900 inline-block py-2 px-4 text-white font-semibold hover:bg-gray-800">
+						Command
+					</a>
+                </li>
+                <li>
+                    <a href="#" data-tab="tab-custom" class="tab-link bg-gray-900 inline-block py-2 px-4 text-white font-semibold hover:bg-gray-800">
+						Custom
+					</a>
+                </li>
+            </ul>
         </div>
 		
-        <div class="w-full p-4 bg-gray-900 rounded mt-4">
-            <h2 class="text-2xl font-bold">Utility</h2>
-            <form action="/settings-utl" method="POST" class="flex flex-col gap-4 mt-4">
-				<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-					<div class="flex flex-col gap-1">
-						<label>QR Url</label>
-						<select name="QR_URL" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700">
-							<option value="true" <%= config.settings.QR_URL === 'true' ? 'selected' : '' %>>True</option>
-							<option value="false" <%= config.settings.QR_URL === 'false' ? 'selected' : '' %>>False</option>
-						</select>
+		<div id="tab-settings" class="tab-content active">
+			<div class="w-full p-4 bg-gray-900 rounded mt-4">
+				<h2 class="text-2xl font-bold">Utility</h2>
+				<form action="/settings-utl" method="POST" class="flex flex-col gap-4 mt-4">
+					<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+						<div class="flex flex-col gap-1">
+							<label>QR Url</label>
+							<select name="QR_URL" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700">
+								<option value="true" <%= config.settings.QR_URL === 'true' ? 'selected' : '' %>>True</option>
+								<option value="false" <%= config.settings.QR_URL === 'false' ? 'selected' : '' %>>False</option>
+							</select>
+						</div>
+						<div class="flex flex-col gap-1">
+							<label>Self Mode</label>
+							<select name="SELF" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700">
+								<option value="true" <%= config.settings.SELF === 'true' ? 'selected' : '' %>>True</option>
+								<option value="false" <%= config.settings.SELF === 'false' ? 'selected' : '' %>>False</option>
+							</select>
+						</div>
+						<div class="flex flex-col gap-1">
+							<label>Voice Language</label>
+							<select name="TO_VOICE" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700">
+								<option value="id" <%= config.settings.TO_VOICE === 'id' ? 'selected' : '' %>>Indonesia</option>
+								<option value="en" <%= config.settings.TO_VOICE === 'en' ? 'selected' : '' %>>English</option>
+								<option value="es" <%= config.settings.TO_VOICE === 'es' ? 'selected' : '' %>>Spanish</option>
+								<option value="fr" <%= config.settings.TO_VOICE === 'fr' ? 'selected' : '' %>>French</option>
+								<option value="de" <%= config.settings.TO_VOICE === 'de' ? 'selected' : '' %>>German</option>
+								<option value="it" <%= config.settings.TO_VOICE === 'it' ? 'selected' : '' %>>Italian</option>
+								<option value="ja" <%= config.settings.TO_VOICE === 'ja' ? 'selected' : '' %>>Japanese</option>
+								<option value="ko" <%= config.settings.TO_VOICE === 'ko' ? 'selected' : '' %>>Korean</option>
+								<option value="ru" <%= config.settings.TO_VOICE === 'ru' ? 'selected' : '' %>>Russian</option>
+								<option value="zh" <%= config.settings.TO_VOICE === 'zh' ? 'selected' : '' %>>Chinese</option>
+								<option value="ar" <%= config.settings.TO_VOICE === 'ar' ? 'selected' : '' %>>Arabic</option>
+								<option value="pt" <%= config.settings.TO_VOICE === 'pt' ? 'selected' : '' %>>Portuguese</option>
+							</select>
+						</div>
+						<div class="flex flex-col gap-1">
+							<label>Gemini Api Keys</label>
+							<input name="GEMINI_API" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.settings.GEMINI_API %>" onkeydown="return event.key !== ' '" />
+						</div>
+						<div class="flex flex-col gap-1">
+							<label>Gemini Prompt</label>
+							<input name="GEMINI_PROMPT" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.settings.GEMINI_PROMPT %>" onkeydown="return event.key !== ' '" />
+						</div>
+						<div class="flex flex-col gap-1">
+							<label>New Feature</label>
+							<input class="p-2 rounded bg-gray-700 w-full focus:outline-none border border-gray-700" value="Comming soon." readonly />
+						</div>
 					</div>
-					<div class="flex flex-col gap-1">
-						<label>Self Mode</label>
-						<select name="SELF" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700">
-							<option value="true" <%= config.settings.SELF === 'true' ? 'selected' : '' %>>True</option>
-							<option value="false" <%= config.settings.SELF === 'false' ? 'selected' : '' %>>False</option>
-						</select>
+					<div class="flex justify-start mt-4">
+						<button type="submit" class="flex bg-gray-700 hover:bg-blue-700 px-4 py-2 rounded">
+							<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6">
+							  <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+							</svg> 
+							Save
+						</button>
 					</div>
-					<div class="flex flex-col gap-1">
-						<label>Voice Language</label>
-						<select name="TO_VOICE" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700">
-							<option value="id" <%= config.settings.TO_VOICE === 'id' ? 'selected' : '' %>>Indonesia</option>
-							<option value="en" <%= config.settings.TO_VOICE === 'en' ? 'selected' : '' %>>English</option>
-							<option value="es" <%= config.settings.TO_VOICE === 'es' ? 'selected' : '' %>>Spanish</option>
-							<option value="fr" <%= config.settings.TO_VOICE === 'fr' ? 'selected' : '' %>>French</option>
-							<option value="de" <%= config.settings.TO_VOICE === 'de' ? 'selected' : '' %>>German</option>
-							<option value="it" <%= config.settings.TO_VOICE === 'it' ? 'selected' : '' %>>Italian</option>
-							<option value="ja" <%= config.settings.TO_VOICE === 'ja' ? 'selected' : '' %>>Japanese</option>
-							<option value="ko" <%= config.settings.TO_VOICE === 'ko' ? 'selected' : '' %>>Korean</option>
-							<option value="ru" <%= config.settings.TO_VOICE === 'ru' ? 'selected' : '' %>>Russian</option>
-							<option value="zh" <%= config.settings.TO_VOICE === 'zh' ? 'selected' : '' %>>Chinese</option>
-							<option value="ar" <%= config.settings.TO_VOICE === 'ar' ? 'selected' : '' %>>Arabic</option>
-							<option value="pt" <%= config.settings.TO_VOICE === 'pt' ? 'selected' : '' %>>Portuguese</option>
-						</select>
+				</form>
+			</div>
+		</div>
+		
+		<div id="tab-command" class="tab-content active hidden">
+			<div class="w-full p-4 bg-gray-900 rounded">
+				<h2 class="text-2xl font-bold">Command Settings</h2>
+				<form action="/settings" method="POST" class="flex flex-col gap-4 mt-4">
+					<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+						<div class="flex flex-col gap-1">
+							<label>Gemini AI</label>
+							<input name="CMD_GEMINI" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_GEMINI %>" onkeydown="return event.key !== ' '" />
+							<span class="text-xs text-gray-300">e.g: 
+							<code class="bg-gray-700 px-1">.ai</code> 
+							hello</span>
+						</div>
+						<div class="flex flex-col gap-1">
+							<label>Gemini AI Image Analytic</label>
+							<input name="CMD_GEMINI_IMG" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_GEMINI_IMG %>" onkeydown="return event.key !== ' '" />
+							<span class="text-xs text-gray-300">e.g: (quote) 
+							<code class="bg-gray-700">.aiimg</code> 
+							what this?</span>
+						</div>
+						<div class="flex flex-col gap-1">
+							<label>Sticker Maker</label>
+							<input name="CMD_STICKER" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_STICKER %>" onkeydown="return event.key !== ' '" />
+							<span class="text-xs text-gray-300">e.g: (quote) 
+							<code class="bg-gray-700">.sticker</code>
+							</span>
+						</div>
+						<div class="flex flex-col gap-1">
+							<label>Text to Voice</label>
+							<input name="CMD_TO_VOICE" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_TO_VOICE %>" onkeydown="return event.key !== ' '" />
+							<span class="text-xs text-gray-300">e.g: 
+							<code class="bg-gray-700">.tovoice</code>
+							halo apa kabar!
+							</span>
+						</div>
+						<div class="flex flex-col gap-1">
+							<label>Country Info</label>
+							<input name="CMD_COUNTRY" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_COUNTRY %>" onkeydown="return event.key !== ' '" />
+							<span class="text-xs text-gray-300">e.g: 
+							<code class="bg-gray-700">.country</code> 
+							indonesia</span>
+						</div>
+						<div class="flex flex-col gap-1">
+							<label>Weather Info</label>
+							<input name="CMD_WEATHER" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_WEATHER %>" onkeydown="return event.key !== ' '" />
+							<span class="text-xs text-gray-300">e.g: 
+							<code class="bg-gray-700">.weather</code> 
+							jakarta</span>
+						</div>
+						
+						<div class="flex flex-col gap-1">
+							<label>Wiki Search</label>
+							<input name="CMD_WIKIPEDIA_SEARCH" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_WIKIPEDIA_SEARCH %>" onkeydown="return event.key !== ' '" />
+							<span class="text-xs text-gray-300">e.g: 
+							<code class="bg-gray-700">.wiki-search</code> 
+							indonesia</span>
+						</div>
+						<div class="flex flex-col gap-1">
+							<label>Wiki Image</label>
+							<input name="CMD_WIKIPEDIA_IMG" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_WIKIPEDIA_IMG %>" onkeydown="return event.key !== ' '" />
+							<span class="text-xs text-gray-300">e.g: 
+							<code class="bg-gray-700">.wiki-img</code> 
+							indonesia</span>
+						</div>
+						<div class="flex flex-col gap-1">
+							<label>Wiki AI</label>
+							<input name="CMD_WIKIPEDIA_AI" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_WIKIPEDIA_AI %>" onkeydown="return event.key !== ' '" />
+							<span class="text-xs text-gray-300">e.g: 
+							<code class="bg-gray-700">.wiki-ai</code> 
+							indonesia</span>
+						</div>
+						
+						<div class="flex flex-col gap-1">
+							<label>SEO Info</label>
+							<input name="CMD_SEO" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_SEO %>" onkeydown="return event.key !== ' '" />
+							<span class="text-xs text-gray-300">e.g: 
+							<code class="bg-gray-700">.seo</code> 
+							youtube.com</span>
+						</div>
+						<div class="flex flex-col gap-1">
+							<label>Translate Text</label>
+							<input name="CMD_TRANSLATE" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_TRANSLATE %>" onkeydown="return event.key !== ' '" />
+							<span class="text-xs text-gray-300">e.g: 
+							<code class="bg-gray-700">.translate-</code>id 
+							How are you</span>
+						</div>
+						<div class="flex flex-col gap-1">
+							<label>Twitter MP4 Download</label>
+							<input name="CMD_TWDLMP4" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_TWDLMP4 %>" onkeydown="return event.key !== ' '" />
+							<span class="text-xs text-gray-300">e.g: 
+							<code class="bg-gray-700">.twdl-mp4</code>
+							url</span>
+						</div>
+						<div class="flex flex-col gap-1">
+							<label>Twitter MP3 Download</label>
+							<input name="CMD_TWDLMP3" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_TWDLMP3 %>" onkeydown="return event.key !== ' '" />
+							<span class="text-xs text-gray-300">e.g: 
+							<code class="bg-gray-700">.twdl-mp3</code>
+							url</span>
+						</div>
+						<div class="flex flex-col gap-1">
+							<label>Instagram MP4 Download</label>
+							<input name="CMD_IGDLMP4" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_IGDLMP4 %>" onkeydown="return event.key !== ' '" />
+							<span class="text-xs text-gray-300">e.g: 
+							<code class="bg-gray-700">.igdl-mp4</code>
+							url</span>
+						</div>
+						<div class="flex flex-col gap-1">
+							<label>Instagram MP3 Download</label>
+							<input name="CMD_IGDLMP3" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_IGDLMP3 %>" onkeydown="return event.key !== ' '" />
+							<span class="text-xs text-gray-300">e.g: 
+							<code class="bg-gray-700">.igdl-mp3</code>
+							url</span>
+						</div>
+						<div class="flex flex-col gap-1">
+							<label>TikTok MP4 Download</label>
+							<input name="CMD_TKDLMP4" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_TKDLMP4 %>" onkeydown="return event.key !== ' '" />
+							<span class="text-xs text-gray-300">e.g: 
+							<code class="bg-gray-700">.tkdl-mp4</code>
+							 url</span>
+						</div>
+						<div class="flex flex-col gap-1">
+							<label>TikTok MP3 Download</label>
+							<input name="CMD_TKDLMP3" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_TKDLMP3 %>" onkeydown="return event.key !== ' '" />
+							<span class="text-xs text-gray-300">e.g: 
+							<code class="bg-gray-700">.tkdl-mp3</code>
+							 url</span>
+						</div>
+						<div class="flex flex-col gap-1">
+							<label>Vimeo MP4 Download</label>
+							<input name="CMD_VMDLMP4" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_VMDLMP4 %>" onkeydown="return event.key !== ' '" />
+							<span class="text-xs text-gray-300">e.g: 
+							<code class="bg-gray-700">.vmdl-mp4</code>
+							 url</span>
+						</div>
+						<div class="flex flex-col gap-1">
+							<label>Vimeo MP3 Download</label>
+							<input name="CMD_VMDLMP3" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_VMDLMP3 %>" onkeydown="return event.key !== ' '" />
+							<span class="text-xs text-gray-300">e.g: 
+							<code class="bg-gray-700">.vmdl-mp3</code>
+							 url</span>
+						</div>
+						<div class="flex flex-col gap-1">
+							<label>Facebook MP4 Download</label>
+							<input name="CMD_FBDLMP4" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_FBDLMP4 %>" onkeydown="return event.key !== ' '" />
+							<span class="text-xs text-gray-300">e.g: 
+							<code class="bg-gray-700">.fbdl-mp4</code>
+							 url</span>
+						</div>
+						<div class="flex flex-col gap-1">
+							<label>Facebook MP3 Download</label>
+							<input name="CMD_FBDLMP3" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_FBDLMP3 %>" onkeydown="return event.key !== ' '" />
+							<span class="text-xs text-gray-300">e.g: 
+							<code class="bg-gray-700">.fbdl-mp3</code>
+							 url</span>
+						</div>
+						<div class="flex flex-col gap-1">
+							<label>YouTube MP4 YouTube</label>
+							<input name="CMD_YTDLMP4" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_YTDLMP4 %>" onkeydown="return event.key !== ' '" />
+							<span class="text-xs text-gray-300">e.g: 
+							<code class="bg-gray-700">.ytdl-mp4</code>
+							 url</span>
+						</div>
+						<div class="flex flex-col gap-1">
+							<label>YouTube MP3 YouTube</label>
+							<input name="CMD_YTDLMP3" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_YTDLMP3 %>" onkeydown="return event.key !== ' '" />
+							<span class="text-xs text-gray-300">e.g: 
+							<code class="bg-gray-700">.ytdl-mp3</code>
+							 url</span>
+						</div>
+						<div class="flex flex-col gap-1">
+							<label>New Feature</label>
+							<input class="p-2 rounded bg-gray-700 w-full focus:outline-none border border-gray-700" value="Comming soon." readonly />
+						</div>
 					</div>
-					<div class="flex flex-col gap-1">
-						<label>Gemini Api Keys</label>
-						<input name="GEMINI_API" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.settings.GEMINI_API %>" onkeydown="return event.key !== ' '" />
+					<div class="flex justify-start mt-4">
+						<button type="submit" class="flex bg-gray-700 hover:bg-blue-700 px-4 py-2 rounded">
+							<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6">
+							  <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+							</svg> 
+							Save
+						</button>
 					</div>
-					<div class="flex flex-col gap-1">
-						<label>Gemini Prompt</label>
-						<input name="GEMINI_PROMPT" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.settings.GEMINI_PROMPT %>" onkeydown="return event.key !== ' '" />
-					</div>
-					<div class="flex flex-col gap-1">
-						<label>New Feature</label>
-						<input class="p-2 rounded bg-gray-700 w-full focus:outline-none border border-gray-700" value="Comming soon." readonly />
-					</div>
-				</div>
-				<div class="flex justify-end">
-					<button type="submit" class="flex bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded">
-						Save Changes
+				</form>
+			</div>
+		</div>
+		
+		<div id="tab-custom" class="tab-content active hidden">
+			<div class="w-full overflow-x-auto p-4 bg-gray-900 rounded">
+				<div class="flex justify-end mb-4">
+					<button id="editFile" class="flex items-center gap-2 px-4 py-2 bg-gray-800 hover:bg-blue-700 text-white rounded">
+						<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6">
+							<path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+						</svg>
+						<span>Edit</span>
 					</button>
 				</div>
-			</form>
+				<table id="table-custom" class="display w-full responsive pt-2">
+					<thead>
+						<tr>
+							<th>CMD</th>
+							<th>Quote Reply</th>
+							<th>Type</th>
+						</tr>
+					</thead>
+					<tbody>
+						<% function formatType(type) {
+							const formatted = type
+								.replace(/([A-Z])/g, ' $1')
+								.replace(/^./, (str) => str.toUpperCase());
+							return formatted.trim();
+						}%>
+						<% Object.keys(autoResponse).forEach(type => { %>
+							<% const commandObj = autoResponse[type]; %>
+							<% Object.keys(commandObj).forEach(cmd => { %>
+								<tr>
+									<td><%= cmd %></td>
+									<td>
+										<% if (commandObj[cmd].reply) { %>
+											<span>
+												<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6">
+												  <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+												</svg>
+											</span>
+										<% } else { %>
+											<span>
+												<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6">
+												  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+												</svg>
+											</span>
+										<% } %>
+									</td>
+									<td><%= formatType(type) %></td>
+								</tr>
+							<% }); %>
+						<% }); %>
+					</tbody>
+				</table>
+			</div>
 		</div>
+		
+		<div id="editFileModal" class="fixed inset-0 hidden bg-gray-800 bg-opacity-90 flex items-center justify-center">
+			<div class="bg-gray-700 rounded-lg w-full max-w-3xl shadow-lg p-6">
+				<h2 class="text-xl text-center font-semibold mb-4">Edit Auto Command</h2>
+				<form action="/settings/update" method="POST">
+					<div class="flex">
+						<textarea name="autoCommand" class="w-full bg-gray-800 rounded overflow-auto h-[75vh] focus:outline-none" placeholder="Your text here..."><%- JSON.stringify(autoResponse, null, 2) %></textarea>
+					</div>
+					<div class="flex justify-end gap-2 mt-4">
+						<button type="submit" class="bg-gray-800 flex items-center gap-2 hover:bg-blue-800 text-white px-4 py-2 rounded">
+							<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6">
+								<path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+							</svg> 
+							Save
+						</button>
+						<button type="button" id="closeModal" class="bg-gray-800 flex items-center gap-2 hover:bg-red-800 text-white px-4 py-2 rounded">
+							<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+							  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+							</svg>
+							Close
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+
+        
     </div>
+	
+	<script>
+		$('#table-custom').DataTable({
+			"pageLength": 30,
+			"lengthMenu": [ 
+				[10, 30, 50, -1],
+				[10, 30, 50, "All"]
+			],
+			"language": {
+				"lengthMenu": "_MENU_",
+				"zeroRecords": "No data found",
+				"info": "_PAGE_ | _PAGES_",
+				"infoEmpty": "",
+				"infoFiltered": "",
+				"search": "",
+				"paginate": {
+					"first": "First",
+					"last": "Last",
+					"next": "Next",
+					"previous": "Prev"
+				}
+			}
+		});
+		
+        const tabs = document.querySelectorAll('.tab-link');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', function(e) {
+                e.preventDefault();
+
+                const target = this.getAttribute('data-tab');
+
+                tabs.forEach(t => {
+                    t.classList.remove('bg-gray-800');
+                    t.classList.add('bg-gray-900');
+                });
+                tabContents.forEach(content => {
+                    content.classList.add('hidden');
+                });
+
+                this.classList.remove('bg-gray-900');
+                this.classList.add('bg-gray-800');
+                document.getElementById(target).classList.remove('hidden');
+            });
+        });
+		
+		
+        const modal = document.getElementById('editFileModal');
+        const editFileButton = document.getElementById('editFile');
+        const closeModal = document.getElementById('closeModal');
+        editFileButton.addEventListener('click', () => {
+            modal.classList.remove('hidden');
+        });
+        closeModal.addEventListener('click', () => {
+            modal.classList.add('hidden');
+        });
+    </script>
 </body>
 </html>
