@@ -288,7 +288,7 @@ app.post('/settings-utl', (req, res) => {
     });
 });
 
-app.put('/restart-server', (req, res) => {
+app.post('/restart-server', (req, res) => {
     res.json({ success: true, message: 'Server is restarting...' });
     setTimeout(() => {
         process.exit(0);

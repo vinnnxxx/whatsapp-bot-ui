@@ -129,7 +129,7 @@
 			<p class="text-center text-gray-300">
 				©<script>document.write(new Date().getFullYear());</script> <a href="https://i-as.dev/" class="text-emerald-600 font-semibold">I-As.Dev</a>. All Rights Reserved.
 			</p>
-		</div>
+	</footer>
 	
 	<div id="confirmationModal" class="fixed z-50 inset-0 bg-gray-900 bg-opacity-90 flex items-center justify-center hidden">
         <div class="bg-gray-700 text-white rounded-lg p-6 w-80">
@@ -174,149 +174,160 @@
 		</div>
 	</div>
 
-	<script>
-		const restartButton = document.getElementById('restartServerButton');
-		const confirmationModal = document.getElementById('confirmationModal');
-		const confirmButton = document.getElementById('confirmButton');
-		const cancelButton = document.getElementById('cancelButton');
-		const countdownText = document.getElementById('countdownText');
-		const countdownElement = document.getElementById('countdown');
-		
-		const clearHistoryBtn = document.getElementById('clearHistoryBtn');
-		const clearHistoryModal = document.getElementById('clearHistoryModal');
-		const cancelClearHistoryBtn = document.getElementById('cancelClearHistoryBtn');
-		const confirmClearHistoryBtn = document.getElementById('confirmClearHistoryBtn');
+<script>
+	const restartButton = document.getElementById('restartServerButton');
+	const confirmationModal = document.getElementById('confirmationModal');
+	const confirmButton = document.getElementById('confirmButton');
+	const cancelButton = document.getElementById('cancelButton');
+	const countdownText = document.getElementById('countdownText');
+	const countdownElement = document.getElementById('countdown');
 
-		const toggleSidebarButton = document.getElementById('toggleSidebar');
-		const sidebar = document.getElementById('sidebar');
-		const closeSidebarButton = document.getElementById('closeSidebar');
+	const clearHistoryBtn = document.getElementById('clearHistoryBtn');
+	const clearHistoryModal = document.getElementById('clearHistoryModal');
+	const cancelClearHistoryBtn = document.getElementById('cancelClearHistoryBtn');
+	const confirmClearHistoryBtn = document.getElementById('confirmClearHistoryBtn');
 
-		toggleSidebarButton.addEventListener('click', () => {
-			sidebar.classList.toggle('-translate-x-full');
-		});
+	const toggleSidebarButton = document.getElementById('toggleSidebar');
+	const sidebar = document.getElementById('sidebar');
+	const closeSidebarButton = document.getElementById('closeSidebar');
 
-		closeSidebarButton.addEventListener('click', () => {
-			sidebar.classList.add('-translate-x-full');
-		});
-		
-		const ws = new WebSocket(`ws://${window.location.host}`);
+	toggleSidebarButton.addEventListener('click', () => {
+		sidebar.classList.toggle('-translate-x-full');
+	});
 
-		ws.onmessage = (event) => {
-			const data = JSON.parse(event.data);
-			if (data.messageData) {
-				const messageData = data.messageData;
-				let messageDiv = document.createElement('div');
-				messageDiv.classList.add('chat-bubble');
+	closeSidebarButton.addEventListener('click', () => {
+		sidebar.classList.add('-translate-x-full');
+	});
+	
+	const ws = new WebSocket(`ws://${window.location.host}`);
 
-				if (messageData.group) {
-					messageDiv.classList.add('rounded', 'bg-gray-600');
-					messageDiv.innerHTML = `
-						<div class="p-2">
-							<span class="font-bold">${messageData.group}</span>
-							<span>(${messageData.participant})</span>
-						</div>
-						<p class="p-2 bg-gray-700">${messageData.message}</p>
-					`;
-					document.getElementById('groupMessageContainer').appendChild(messageDiv);
-				} else {
-					messageDiv.classList.add('rounded', 'bg-gray-600');
-					messageDiv.innerHTML = `
-						<div class="p-2">
-							<span class="font-bold">${messageData.sender}</span>
-						</div>
-						<p class="bg-gray-700 p-2">${messageData.message}</p>
-					`;
-					document.getElementById('privateMessageContainer').appendChild(messageDiv);
-				}
+	ws.onmessage = (event) => {
+		const data = JSON.parse(event.data);
+		if (data.messageData) {
+			const messageData = data.messageData;
+			let messageDiv = document.createElement('div');
+			messageDiv.classList.add('chat-bubble');
 
-				const messages = JSON.parse(localStorage.getItem('messageHistory')) || [];
-				messages.push(messageData);
-				localStorage.setItem('messageHistory', JSON.stringify(messages));
-
-				const activeContainer = messageData.group ? 'groupMessageContainer' : 'privateMessageContainer';
-				const container = document.getElementById(activeContainer);
-				container.scrollTop = container.scrollHeight;
+			if (messageData.group) {
+				messageDiv.classList.add('rounded', 'bg-gray-600');
+				messageDiv.innerHTML = `
+					<div class="p-2">
+						<span class="font-bold">${messageData.group}</span>
+						<span>(${messageData.participant})</span>
+					</div>
+					<p class="p-2 bg-gray-700">${messageData.message}</p>
+				`;
+				document.getElementById('groupMessageContainer').appendChild(messageDiv);
+			} else {
+				messageDiv.classList.add('rounded', 'bg-gray-600');
+				messageDiv.innerHTML = `
+					<div class="p-2">
+						<span class="font-bold">${messageData.sender}</span>
+					</div>
+					<p class="bg-gray-700 p-2">${messageData.message}</p>
+				`;
+				document.getElementById('privateMessageContainer').appendChild(messageDiv);
 			}
-		};
 
-		ws.onclose = () => {
-			console.log('WebSocket connection closed');
-		};
+			const messages = JSON.parse(localStorage.getItem('messageHistory')) || [];
+			messages.push(messageData);
+			localStorage.setItem('messageHistory', JSON.stringify(messages));
 
-		document.getElementById('deleteAuthInfoBtn').addEventListener('click', () => {
-			fetch('/delete-auth-info', { method: 'DELETE' })
-				.then(response => response.json())
-				.then(data => {
-					if (data.success) {
-						alert(data.message);
-					} else {
-						alert('Failed to delete auth info: ' + data.message);
-					}
-					window.location.href = '/';
-				})
-				.catch(error => {
-					console.error('Error deleting auth info:', error);
-					alert('Error deleting auth info');
-				});
-		});
+			const activeContainer = messageData.group ? 'groupMessageContainer' : 'privateMessageContainer';
+			const container = document.getElementById(activeContainer);
+			container.scrollTop = container.scrollHeight;
+		}
+	};
 
-		restartButton.onclick = () => {
-			confirmationModal.classList.remove('hidden');
-		};
+	ws.onclose = () => {
+		console.log('WebSocket connection closed');
+	};
 
-		confirmButton.onclick = () => {
-			confirmButton.classList.add('hidden');
-			cancelButton.classList.add('hidden');
-			countdownText.classList.remove('hidden');
-
-			fetch('/restart-server', {
-				method: 'POST'
-			})
+	document.getElementById('deleteAuthInfoBtn').addEventListener('click', () => {
+		fetch('/delete-auth-info', { method: 'DELETE' })
 			.then(response => response.json())
 			.then(data => {
 				if (data.success) {
-					console.log(data.message);
-
-					let countdown = 3;
-					const countdownInterval = setInterval(() => {
-						if (countdown > 0) {
-							countdownElement.textContent = countdown;
-							countdown--;
-						} else {
-							clearInterval(countdownInterval);
-							location.reload();
-						}
-					}, 1000);
+					alert(data.message);
+				} else {
+					alert('Failed to delete auth info: ' + data.message);
 				}
+				window.location.href = '/';
 			})
-			.catch(error => console.error("Error restarting server:", error));
-		};
-
-		cancelButton.onclick = () => {
-			confirmationModal.classList.add('hidden');
-		};
-
-		clearHistoryBtn.addEventListener('click', () => {
-			clearHistoryModal.classList.remove('hidden');
-		});
-		
-		cancelClearHistoryBtn.addEventListener('click', () => {
-			clearHistoryModal.classList.add('hidden');
+			.catch(error => {
+				console.error('Error deleting auth info:', error);
+				alert('Error deleting auth info');
+			});
 		});
 
-		confirmClearHistoryBtn.addEventListener('click', () => {
-			document.getElementById('groupMessageContainer').innerHTML = '';
-			document.getElementById('privateMessageContainer').innerHTML = '';
-			localStorage.removeItem('messageHistory');
-			clearHistoryModal.classList.add('hidden');
-			const successMessage = document.createElement('div');
-			successMessage.classList.add('fixed', 'top-4', 'right-4', 'bg-green-500', 'text-white', 'p-2', 'rounded');
-			successMessage.textContent = 'Riwayat pesan berhasil dihapus dari localStorage';
-			document.body.appendChild(successMessage);
-			setTimeout(() => {
-				successMessage.remove();
-			}, 3000);
+	restartButton.onclick = () => {
+		confirmationModal.classList.remove('hidden');
+	};
+
+	confirmButton.onclick = () => {
+		confirmButton.classList.add('hidden');
+		cancelButton.classList.add('hidden');
+		countdownText.classList.remove('hidden');
+
+		let countdown = 3;
+		countdownElement.textContent = countdown;
+
+		const countdownInterval = setInterval(() => {
+			countdown--;
+			countdownElement.textContent = countdown;
+
+			if (countdown <= 0) {
+				clearInterval(countdownInterval);
+				location.reload();
+			}
+		}, 1000);
+
+		fetch('/restart-server', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			}
+		})
+		.then(response => response.json())
+		.then(data => {
+			if (data.success) {
+				console.log(data.message);
+			} else {
+				alert('Failed to restart server: ' + data.message);
+			}
+		})
+		.catch(error => {
+			console.error("Error restarting server:", error);
+			alert('Error restarting server');
 		});
-	</script>
+	};
+
+	cancelButton.onclick = () => {
+		confirmationModal.classList.add('hidden');
+	};
+
+	clearHistoryBtn.addEventListener('click', () => {
+		clearHistoryModal.classList.remove('hidden');
+	});
+	
+	cancelClearHistoryBtn.addEventListener('click', () => {
+		clearHistoryModal.classList.add('hidden');
+	});
+
+	confirmClearHistoryBtn.addEventListener('click', () => {
+		document.getElementById('groupMessageContainer').innerHTML = '';
+		document.getElementById('privateMessageContainer').innerHTML = '';
+		localStorage.removeItem('messageHistory');
+		clearHistoryModal.classList.add('hidden');
+		const successMessage = document.createElement('div');
+		successMessage.classList.add('fixed', 'top-4', 'right-4', 'bg-green-500', 'text-white', 'p-2', 'rounded');
+		successMessage.textContent = 'Riwayat pesan berhasil dihapus dari localStorage';
+		document.body.appendChild(successMessage);
+		setTimeout(() => {
+			successMessage.remove();
+		}, 3000);
+	});
+</script>
+
 </body>
 </html>
