@@ -38,7 +38,12 @@
     "CMD_SHA": ".sha",
     "CMD_MD5": ".md5",
     "CMD_RIPEMD": ".ripemd",
-    "CMD_BCRYPT": ".bcrypt"
+    "CMD_BCRYPT": ".bcrypt",
+    "CMD_QUOTE": ".quote",
+    "CMD_BUCIN": ".bucin",
+    "CMD_DILAN": ".dilan",
+    "CMD_KECKER": ".hecker",
+    "CMD_KATA": ".kata"
   },
   "settings": {
     "QR_URL": true,

@@ -18,9 +18,76 @@ const { CheckSEO } = require('./utils/SEO');
 const { WikipediaAI, WikipediaSearch, WikipediaImage } = require('./utils/Wikipedia');
 const { Surah, SurahDetails } = require('./utils/Quran');
 const { AesEncryption, AesDecryption, CamelliaEncryption, CamelliaDecryption, ShaEncryption, Md5Encryption, RipemdEncryption, BcryptEncryption } = require('./utils/Encrypts.js');
+const { kataKataRandom, heckerRandom, dilanRandom, bucinRandom, quoteRandom } = require('./utils/Entertain.js');
 
 async function AdvancedResponse(messageContent, sender, sock, message) {
-    
+
+	if (messageContent === `${config.cmd.CMD_QUOTE}`) {
+		await sock.sendMessage(sender, { react: { text: "⌛", key: message.key } });
+
+		try {
+			const responseMessage = await quoteRandom();
+			const quoteData = `${responseMessage.quotes}\n\n*~${responseMessage.author}*`;
+			await sock.sendMessage(sender, { text: quoteData }, { quoted: message });
+			await sock.sendMessage(sender, { react: { text: "✅", key: message.key } });
+		} catch (error) {
+			console.error('Error sending message:', error);
+			await sock.sendMessage(sender, { react: { text: "❌", key: message.key } });
+		}
+	}
+	
+	if (messageContent === `${config.cmd.CMD_BUCIN}`) {
+		await sock.sendMessage(sender, { react: { text: "⌛", key: message.key } });
+
+		try {
+			const responseMessage = await bucinRandom();
+			await sock.sendMessage(sender, { text: responseMessage }, { quoted: message });
+			await sock.sendMessage(sender, { react: { text: "✅", key: message.key } });
+		} catch (error) {
+			console.error('Error sending message:', error);
+			await sock.sendMessage(sender, { react: { text: "❌", key: message.key } });
+		}
+	}
+	
+	if (messageContent === `${config.cmd.CMD_DILAN}`) {
+		await sock.sendMessage(sender, { react: { text: "⌛", key: message.key } });
+
+		try {
+			const responseMessage = await dilanRandom();
+			await sock.sendMessage(sender, { text: responseMessage }, { quoted: message });
+			await sock.sendMessage(sender, { react: { text: "✅", key: message.key } });
+		} catch (error) {
+			console.error('Error sending message:', error);
+			await sock.sendMessage(sender, { react: { text: "❌", key: message.key } });
+		}
+	}
+	
+	if (messageContent === `${config.cmd.CMD_KECKER}`) {
+		await sock.sendMessage(sender, { react: { text: "⌛", key: message.key } });
+
+		try {
+			const responseMessage = await heckerRandom();
+			await sock.sendMessage(sender, { text: responseMessage }, { quoted: message });
+			await sock.sendMessage(sender, { react: { text: "✅", key: message.key } });
+		} catch (error) {
+			console.error('Error sending message:', error);
+			await sock.sendMessage(sender, { react: { text: "❌", key: message.key } });
+		}
+	}
+
+	if (messageContent === `${config.cmd.CMD_KATA}`) {
+		await sock.sendMessage(sender, { react: { text: "⌛", key: message.key } });
+
+		try {
+			const responseMessage = await kataKataRandom();
+			await sock.sendMessage(sender, { text: responseMessage }, { quoted: message });
+			await sock.sendMessage(sender, { react: { text: "✅", key: message.key } });
+		} catch (error) {
+			console.error('Error sending message:', error);
+			await sock.sendMessage(sender, { react: { text: "❌", key: message.key } });
+		}
+	}
+
 	if (config.settings.ANTI_LINK) {
 		try {
 			const regexLinks = /https?:\/\/([^\/]+)|\b([a-zA-Z0-9.-]+\.[a-zA-Z]{2,6})\b/g;

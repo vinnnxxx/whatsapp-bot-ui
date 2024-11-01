@@ -288,6 +288,11 @@ app.post('/settings', (req, res) => {
         CMD_MD5: req.body.CMD_MD5,
         CMD_RIPEMD: req.body.CMD_RIPEMD,
         CMD_BCRYPT: req.body.CMD_BCRYPT,
+        CMD_QUOTE: req.body.CMD_QUOTE,
+        CMD_BUCIN: req.body.CMD_BUCIN,
+        CMD_DILAN: req.body.CMD_DILAN,
+        CMD_KECKER: req.body.CMD_KECKER,
+        CMD_KATA: req.body.CMD_KATA,
     };
 
     fs.readFile(configPath, 'utf8', (err, data) => {
