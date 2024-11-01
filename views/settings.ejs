@@ -108,6 +108,13 @@
 							</select>
 						</div>
 						<div class="flex flex-col gap-1">
+							<label>Anti Link <a href="#" id="editButtonLink" class="text-xs text-emerald-500 hover:text-emerald-600 underline">Edit</a></label>
+							<select name="ANTI_LINK" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700">
+								<option value="true" <%= config.settings.ANTI_LINK === true ? 'selected' : '' %>>Enable</option>
+								<option value="false" <%= config.settings.ANTI_LINK === false ? 'selected' : '' %>>Disable</option>
+							</select>
+						</div>
+						<div class="flex flex-col gap-1">
 							<label>Voice Language</label>
 							<select name="TO_VOICE" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700">
 								<option value="id" <%= config.settings.TO_VOICE === 'id' ? 'selected' : '' %>>Indonesia</option>
@@ -581,6 +588,31 @@
 		</div>
 	</div>
 		
+	<div id="editModalLink" class="hidden fixed inset-0 bg-gray-800 bg-opacity-90 flex items-center justify-center">
+		<div class="bg-gray-700 rounded-lg w-full max-w-3xl shadow-lg p-6">
+			<h2 class="text-xl text-center font-semibold mb-4">Edit Link Excluded</h2>
+			<form action="/update-link" method="POST">
+				<div class="flex">
+					<textarea name="linkExcluded" class="p-4 w-full bg-gray-800 rounded overflow-auto h-[75vh] focus:outline-none" placeholder="Enter bad words separated by commas..."><%- config.excludeLinks.join(', ') %></textarea>
+				</div>
+				<div class="flex justify-end gap-2 mt-4">
+					<button type="submit" class="bg-gray-800 flex items-center gap-2 hover:bg-blue-800 text-white px-4 py-2 rounded">
+						<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6">
+							<path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+						</svg> 
+						Save
+					</button>
+					<button type="button" id="closeModalLink" class="bg-gray-800 flex items-center gap-2 hover:bg-red-800 text-white px-4 py-2 rounded">
+						<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+						  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+						</svg>
+						Close
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
+	
 	<div id="confirmationModal" class="fixed z-50 inset-0 bg-gray-900 bg-opacity-90 flex items-center justify-center hidden">
         <div class="bg-gray-700 text-white rounded-lg p-6 w-80">
             <h2 class="text-xl font-bold mb-4 text-center">Confirmation</h2>
@@ -719,6 +751,16 @@
         });
         closeModalBadwords.addEventListener('click', () => {
             modalBadwords.classList.add('hidden');
+        });
+		
+		const modalLink = document.getElementById('editModalLink');
+        const buttonLink = document.getElementById('editButtonLink');
+        const closeModalLink = document.getElementById('closeModalLink');
+        buttonLink.addEventListener('click', () => {
+            modalLink.classList.remove('hidden');
+        });
+        closeModalLink.addEventListener('click', () => {
+            modalLink.classList.add('hidden');
         });
     </script>
 </body>

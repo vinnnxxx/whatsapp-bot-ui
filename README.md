@@ -50,6 +50,7 @@ Proyek ini menyediakan antarmuka yang intuitif dan responsif, memungkinkan pengg
 ├• Count Words
 ├• QRCode Generator
 ├• Translate Text
+├• Anti Links
 └• Anti Badwords
 ```
 

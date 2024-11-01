@@ -234,6 +234,17 @@ app.post('/update-badwords', (req, res) => {
     }
 });
 
+app.post('/update-link', (req, res) => {
+    try {
+        const linkArray = req.body.linkExcluded.split(',').map(word => word.trim()).filter(word => word);
+        config.excludeLinks = linkArray;
+        fs.writeFileSync(configPath, JSON.stringify(config, null, 2), 'utf-8');
+        res.redirect('/settings');
+    } catch (err) {
+        console.error('Failed to save exclude links:', err);
+        return res.status(500).json({ error: 'Failed to save exclude links' });
+    }
+});
 
 app.post('/settings', (req, res) => {
     const newCommands = {
@@ -298,6 +309,7 @@ app.post('/settings-utl', (req, res) => {
         QR_URL: req.body.QR_URL === 'true',
         SELF: req.body.SELF === 'true',
         ANTI_BADWORDS: req.body.ANTI_BADWORDS === 'true',
+        ANTI_LINK: req.body.ANTI_LINK === 'true',
         GEMINI_API: req.body.GEMINI_API,
         GEMINI_PROMPT: req.body.GEMINI_PROMPT,
         TO_VOICE: req.body.TO_VOICE,

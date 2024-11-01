@@ -21,6 +21,38 @@ const { AesEncryption, AesDecryption, CamelliaEncryption, CamelliaDecryption, Sh
 
 async function AdvancedResponse(messageContent, sender, sock, message) {
     
+	if (config.settings.ANTI_LINK) {
+		try {
+			const regexLinks = /https?:\/\/([^\/]+)|\b([a-zA-Z0-9.-]+\.[a-zA-Z]{2,6})\b/g;
+			const foundLinks = messageContent.match(regexLinks);
+			if (foundLinks) {
+				const domains = foundLinks.map(link => {
+					if (link.startsWith('http')) {
+						try {
+							return new URL(link).hostname;
+						} catch (error) {
+							console.error('Error creating URL:', error);
+							return null;
+						}
+					} else {
+						return link;
+					}
+				}).filter(domain => domain);
+				const excludedDomains = config.excludeLinks.map(link => new URL(link).hostname).join('|');
+				const regexExcludedDomains = new RegExp(`^(${excludedDomains})$`, 'i');
+				const isExcluded = domains.some(domain => regexExcludedDomains.test(domain));
+				if (!isExcluded) {
+					await sock.sendMessage(sender, { react: { text: "❌", key: message.key } });
+					await new Promise(resolve => setTimeout(resolve, 3000));
+					await sock.sendMessage(sender, { delete: message.key });
+					return true;
+				}
+			}
+		} catch (error) {
+			console.error('Error processing links:', error);
+		}
+	}
+
 	if (config.settings.ANTI_BADWORDS) {
 		try {
 			const regex = new RegExp(`\\b(${config.badwords.join('|')})\\b`, 'i');

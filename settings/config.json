@@ -44,10 +44,15 @@
     "QR_URL": true,
     "SELF": true,
     "ANTI_BADWORDS": false,
+    "ANTI_LINK": false,
     "GEMINI_API": "AIzaxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
     "GEMINI_PROMPT": "Anda harus berpura-pura menjadi Whastapp-Bot dan jawab pertanyaan menggunakan bahasa indonesia dengan singkat: ",
     "TO_VOICE": "id"
   },
+  "excludeLinks": [
+    "https://google.com",
+    "https://youtube.com"
+  ],
   "badwords": [
     "ancuk",
     "ancok",
