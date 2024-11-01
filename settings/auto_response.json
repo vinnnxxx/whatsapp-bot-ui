@@ -96,7 +96,7 @@
       "preReact": "⏳",
       "postReact": "✅",
       "errReact": "❌",
-      "reply": true
+      "reply": false
     }
   },
   "polling": {

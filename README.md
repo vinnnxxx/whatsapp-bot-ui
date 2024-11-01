@@ -6,31 +6,51 @@ Proyek ini menyediakan antarmuka yang intuitif dan responsif, memungkinkan pengg
 
 ### Feature
 
-- Custom Response
-- Gemini AI
-- Gemini Ai Image Analytic
-- Sticker Maker
-- Text To Voice
-- Country Info
-- Weather Info
-- Wiki Searching
-- Wiki Image
-- Wiki AI
-- Seo Info
-- Screenshoot Web / Mobile
-- Github Stalker
-- OCR (Image To Text)
-- Count Words
-- QRCode Generator
-- Surah / Ayah Detail
-- Translate Text
-- Twiter Downloader (MP4/MP3)
-- Instagram Downloader (MP4/MP3)
-- Tiktok Downloader (MP4/MP3)
-- Vimeo Downloader (MP4/MP3)
-- Facebook Downloader (MP4/MP3)
-- Youtube Downloader (MP4/MP3)
-- New Features (Comming soon...)
+```
+🤖 Artificial Intelligence
+├• Gemini AI
+└• Gemini AI Image Analytic
+
+🌐 Wikipedia
+├• Wiki Search
+├• Wiki Image
+└• Wiki AI
+
+🕌 Quran
+├• Surah
+└• Ayah Detail
+
+🔒 Encrypts
+├• AES Encrypt
+├• AES Decrypt
+├• Camelia Encrypt
+├• Camelia Decrypt
+├• SHA Encrypt
+├• MD5 Encrypt
+├• Ripemd Encrypt
+└• Bcrypt Encrypt
+
+📁 Downloader
+├• Twitter MP4/MP3 Download
+├• Instagram MP4/MP3 Download
+├• TikTok MP4/MP3 Download
+├• Vimeo MP4/MP3 Download
+├• Facebook MP4/MP3 Download
+└• YouTube MP4/MP3 Download
+
+📦 Miscellaneous
+├• Sticker Maker
+├• Text to Voice
+├• Country Info
+├• Weather Info
+├• SEO Info
+├• Screenshoot Web
+├• Github Stalker
+├• OCR (Image To Text)
+├• Count Words
+├• QRCode Generator
+└• Translate Text
+```
 
 ### Instalasi
 

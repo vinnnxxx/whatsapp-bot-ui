@@ -222,6 +222,19 @@ app.post('/settings/update', (req, res) => {
     });
 });
 
+app.post('/update-badwords', (req, res) => {
+    try {
+        const badwordsArray = req.body.badwords.split(',').map(word => word.trim()).filter(word => word);
+        config.badwords = badwordsArray;
+        fs.writeFileSync(configPath, JSON.stringify(config, null, 2), 'utf-8');
+        res.redirect('/settings');
+    } catch (err) {
+        console.error('Failed to save badwords:', err);
+        return res.status(500).json({ error: 'Failed to save badwords' });
+    }
+});
+
+
 app.post('/settings', (req, res) => {
     const newCommands = {
         CMD_GEMINI: req.body.CMD_GEMINI,
@@ -251,10 +264,18 @@ app.post('/settings', (req, res) => {
         CMD_TKDLMP3: req.body.CMD_TKDLMP3,
         CMD_VMDLMP4: req.body.CMD_VMDLMP4,
         CMD_VMDLMP3: req.body.CMD_VMDLMP3,
-        CMD_VMDLMP3: req.body.CMD_FBDLMP4,
-        CMD_VMDLMP3: req.body.CMD_FBDLMP3,
-        CMD_VMDLMP3: req.body.CMD_YTDLMP4,
-        CMD_VMDLMP3: req.body.CMD_YTDLMP3,
+        CMD_FBDLMP4: req.body.CMD_FBDLMP4,
+        CMD_FBDLMP3: req.body.CMD_FBDLMP3,
+        CMD_YTDLMP4: req.body.CMD_YTDLMP4,
+        CMD_YTDLMP3: req.body.CMD_YTDLMP3,
+        CMD_AES_ENC: req.body.CMD_AES_ENC,
+        CMD_AES_DEC: req.body.CMD_AES_DEC,
+        CMD_CAMELIA_ENC: req.body.CMD_CAMELIA_ENC,
+        CMD_CAMELIA_DES: req.body.CMD_CAMELIA_DES,
+        CMD_SHA: req.body.CMD_SHA,
+        CMD_MD5: req.body.CMD_MD5,
+        CMD_RIPEMD: req.body.CMD_RIPEMD,
+        CMD_BCRYPT: req.body.CMD_BCRYPT,
     };
 
     fs.readFile(configPath, 'utf8', (err, data) => {
@@ -274,8 +295,9 @@ app.post('/settings', (req, res) => {
 
 app.post('/settings-utl', (req, res) => {
     const newCommands = {
-        QR_URL: req.body.QR_URL,
-        SELF: req.body.SELF,
+        QR_URL: req.body.QR_URL === 'true',
+        SELF: req.body.SELF === 'true',
+        ANTI_BADWORDS: req.body.ANTI_BADWORDS === 'true',
         GEMINI_API: req.body.GEMINI_API,
         GEMINI_PROMPT: req.body.GEMINI_PROMPT,
         TO_VOICE: req.body.TO_VOICE,

@@ -17,11 +17,134 @@ const { Weather } = require('./utils/Weather');
 const { CheckSEO } = require('./utils/SEO');
 const { WikipediaAI, WikipediaSearch, WikipediaImage } = require('./utils/Wikipedia');
 const { Surah, SurahDetails } = require('./utils/Quran');
+const { AesEncryption, AesDecryption, CamelliaEncryption, CamelliaDecryption, ShaEncryption, Md5Encryption, RipemdEncryption, BcryptEncryption } = require('./utils/Encrypts.js');
 
 async function AdvancedResponse(messageContent, sender, sock, message) {
     
-	if (messageContent.startsWith('.ssweb ')) {
-		const domain = messageContent.replace('.ssweb ', '').trim();
+	if (config.settings.ANTI_BADWORDS) {
+		try {
+			const regex = new RegExp(`\\b(${config.badwords.join('|')})\\b`, 'i');
+			if (regex.test(messageContent)) {
+				await sock.sendMessage(sender, { react: { text: "❌", key: message.key } });
+				await new Promise(resolve => setTimeout(resolve, 3000));
+				await sock.sendMessage(sender, { delete: message.key });
+				return true;
+			}
+		} catch (error) {
+			console.error('Error deleting message:', error);
+		}
+	}
+	
+	if (messageContent.startsWith(`${config.cmd.CMD_AES_ENC} `)) {
+		const text = messageContent.replace(`${config.cmd.CMD_AES_ENC} `, '').trim();
+		const getkey = "b14ca5898a4e4133bbce2ea2315a1916";
+		await sock.sendMessage(sender, { react: { text: "⌛", key: message.key } });
+		try {
+			const encryptedText = await AesEncryption(text, getkey);
+			await sock.sendMessage(sender, { text: `Result AES Encryption: *${encryptedText}*` }, { quoted: message });
+			await sock.sendMessage(sender, { react: { text: "✅", key: message.key } });
+		} catch (error) {
+			console.log(error)
+			await sock.sendMessage(sender, { react: { text: "❌", key: message.key } });
+		}
+	}
+
+	if (messageContent.startsWith(`${config.cmd.CMD_AES_DEC} `)) {
+		const encryptedText = messageContent.replace(`${config.cmd.CMD_AES_DEC} `, '').trim();
+		const getkey = "b14ca5898a4e4133bbce2ea2315a1916";
+		await sock.sendMessage(sender, { react: { text: "⌛", key: message.key } });
+		try {
+			const decryptedText = await AesDecryption(encryptedText, getkey);
+			await sock.sendMessage(sender, { text: `Result AES Decryption: *${decryptedText}*` }, { quoted: message });
+			await sock.sendMessage(sender, { react: { text: "✅", key: message.key } });
+		} catch (error) {
+			console.log(error)
+			await sock.sendMessage(sender, { react: { text: "❌", key: message.key } });
+		}
+	}
+		
+	if (messageContent.startsWith(`${config.cmd.CMD_CAMELIA_ENC} `)) {
+		const text = messageContent.replace(`${config.cmd.CMD_CAMELIA_ENC} `, '').trim();
+		const getkey = "0123456789abcdeffedcba9876543210";
+		await sock.sendMessage(sender, { react: { text: "⌛", key: message.key } });
+		try {
+			const encryptedText = await CamelliaEncryption(text, getkey);
+			await sock.sendMessage(sender, { text: `Result Camellia Encryption: *${encryptedText}*` }, { quoted: message });
+			await sock.sendMessage(sender, { react: { text: "✅", key: message.key } });
+		} catch (error) {
+			console.log(error)
+			await sock.sendMessage(sender, { react: { text: "❌", key: message.key } });
+		}
+	}
+
+	if (messageContent.startsWith(`${config.cmd.CMD_CAMELIA_DES} `)) {
+		const encryptedText = messageContent.replace(`${config.cmd.CMD_CAMELIA_DES} `, '').trim();
+		const getkey = "0123456789abcdeffedcba9876543210";
+		await sock.sendMessage(sender, { react: { text: "⌛", key: message.key } });
+		try {
+			const decryptedText = await CamelliaDecryption(encryptedText, getkey);
+			await sock.sendMessage(sender, { text: `Result Camellia Decryption: *${decryptedText}*` }, { quoted: message });
+			await sock.sendMessage(sender, { react: { text: "✅", key: message.key } });
+		} catch (error) {
+			console.log(error)
+			await sock.sendMessage(sender, { react: { text: "❌", key: message.key } });
+		}
+	}
+
+	if (messageContent.startsWith(`${config.cmd.CMD_SHA} `)) {
+		const text = messageContent.replace(`${config.cmd.CMD_SHA} `, '').trim();
+		await sock.sendMessage(sender, { react: { text: "⌛", key: message.key } });
+		try {
+			const hashedText = await ShaEncryption(text);
+			await sock.sendMessage(sender, { text: `Result SHA Hashing: *${hashedText}*` }, { quoted: message });
+			await sock.sendMessage(sender, { react: { text: "✅", key: message.key } });
+		} catch (error) {
+			console.log(error)
+			await sock.sendMessage(sender, { react: { text: "❌", key: message.key } });
+		}
+	}
+
+	if (messageContent.startsWith(`${config.cmd.CMD_MD5} `)) {
+		const text = messageContent.replace(`${config.cmd.CMD_MD5} `, '').trim();
+		await sock.sendMessage(sender, { react: { text: "⌛", key: message.key } });
+		try {
+			const hashedText = await Md5Encryption(text);
+			await sock.sendMessage(sender, { text: `Result MD5 Hashing: *${hashedText}*` }, { quoted: message });
+			await sock.sendMessage(sender, { react: { text: "✅", key: message.key } });
+		} catch (error) {
+			console.log(error)
+			await sock.sendMessage(sender, { react: { text: "❌", key: message.key } });
+		}
+	}
+
+	if (messageContent.startsWith(`${config.cmd.CMD_RIPEMD} `)) {
+		const text = messageContent.replace(`${config.cmd.CMD_RIPEMD} `, '').trim();
+		await sock.sendMessage(sender, { react: { text: "⌛", key: message.key } });
+		try {
+			const hashedText = await RipemdEncryption(text);
+			await sock.sendMessage(sender, { text: `Result RIPEMD Hashing: *${hashedText}*` }, { quoted: message });
+			await sock.sendMessage(sender, { react: { text: "✅", key: message.key } });
+		} catch (error) {
+			console.log(error)
+			await sock.sendMessage(sender, { react: { text: "❌", key: message.key } });
+		}
+	}
+
+	if (messageContent.startsWith(`${config.cmd.CMD_BCRYPT} `)) {
+		const text = messageContent.replace(`${config.cmd.CMD_BCRYPT} `, '').trim();
+		await sock.sendMessage(sender, { react: { text: "⌛", key: message.key } });
+		try {
+			const hashedText = await BcryptEncryption(text);
+			await sock.sendMessage(sender, { text: `Result Bcrypt Hashing: *${hashedText}*` }, { quoted: message });
+			await sock.sendMessage(sender, { react: { text: "✅", key: message.key } });
+		} catch (error) {
+			console.log(error)
+			await sock.sendMessage(sender, { react: { text: "❌", key: message.key } });
+		}
+	}
+		
+	if (messageContent.startsWith(`${config.cmd.CMD_SSWEB} `)) {
+		const domain = messageContent.replace(`${config.cmd.CMD_SSWEB} `, '').trim();
 		await sock.sendMessage(sender, { react: { text: "⌛", key: message.key } });
 		try {
 			const browser = await puppeteer.launch();
@@ -41,8 +164,8 @@ async function AdvancedResponse(messageContent, sender, sock, message) {
 		}
 	}
 	
-	if (messageContent.startsWith('.ssmobile ')) {
-		const domain = messageContent.replace('.ssmobile ', '').trim();
+	if (messageContent.startsWith(`${config.cmd.CMD_SSMOBILE} `)) {
+		const domain = messageContent.replace(`${config.cmd.CMD_SSMOBILE} `, '').trim();
 		await sock.sendMessage(sender, { react: { text: "⌛", key: message.key } });
 		try {
 			const browser = await puppeteer.launch();
