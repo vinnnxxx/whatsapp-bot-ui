@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FHY WaBotUI - Bot WhatsApp Otomatis</title>
+    <title>Settings - FHY WaBotUI</title>
     <meta name="description" content="FHY WaBot adalah bot WhatsApp otomatis yang memudahkan komunikasi dengan fitur canggih dan kemudahan pengelolaan pesan secara efektif." />
     <meta name="keywords" content="FHY WaBot, WhatsApp bot, bot otomatis, pengelolaan pesan WhatsApp, fitur chatbot, WhatsApp API, bot WA" />
     <link rel="icon" type="image/png" href="/ss1.png" sizes="32x32" />
@@ -87,35 +87,35 @@
 				<form action="/settings-utl" method="POST" class="flex flex-col gap-4 mt-4">
 					<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
 						<div class="flex flex-col gap-1">
-							<label>QR Url</label>
+							<label class="text-xs md:text-sm">QR Url</label>
 							<select name="QR_URL" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700">
 								<option value="true" <%= config.settings.QR_URL === true ? 'selected' : '' %>>Enable</option>
 								<option value="false" <%= config.settings.QR_URL === false ? 'selected' : '' %>>Disable</option>
 							</select>
 						</div>
 						<div class="flex flex-col gap-1">
-							<label>Self Mode</label>
+							<label class="text-xs md:text-sm">Self Mode</label>
 							<select name="SELF" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700">
 								<option value="true" <%= config.settings.SELF === true ? 'selected' : '' %>>Enable</option>
 								<option value="false" <%= config.settings.SELF === false ? 'selected' : '' %>>Disable</option>
 							</select>
 						</div>
 						<div class="flex flex-col gap-1">
-							<label>Anti Badwords <a href="#" id="editButtonBadwords" class="text-xs text-emerald-500 hover:text-emerald-600 underline">Edit</a></label>
+							<label class="text-xs md:text-sm">Anti Badwords <a href="#" id="editButtonBadwords" class="text-xs text-emerald-500 hover:text-emerald-600 underline">Edit</a></label>
 							<select name="ANTI_BADWORDS" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700">
 								<option value="true" <%= config.settings.ANTI_BADWORDS === true ? 'selected' : '' %>>Enable</option>
 								<option value="false" <%= config.settings.ANTI_BADWORDS === false ? 'selected' : '' %>>Disable</option>
 							</select>
 						</div>
 						<div class="flex flex-col gap-1">
-							<label>Anti Link <a href="#" id="editButtonLink" class="text-xs text-emerald-500 hover:text-emerald-600 underline">Edit</a></label>
+							<label class="text-xs md:text-sm">Anti Link <a href="#" id="editButtonLink" class="text-xs text-emerald-500 hover:text-emerald-600 underline">Edit</a></label>
 							<select name="ANTI_LINK" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700">
 								<option value="true" <%= config.settings.ANTI_LINK === true ? 'selected' : '' %>>Enable</option>
 								<option value="false" <%= config.settings.ANTI_LINK === false ? 'selected' : '' %>>Disable</option>
 							</select>
 						</div>
 						<div class="flex flex-col gap-1">
-							<label>Voice Language</label>
+							<label class="text-xs md:text-sm">Voice Language</label>
 							<select name="TO_VOICE" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700">
 								<option value="id" <%= config.settings.TO_VOICE === 'id' ? 'selected' : '' %>>Indonesia</option>
 								<option value="en" <%= config.settings.TO_VOICE === 'en' ? 'selected' : '' %>>English</option>
@@ -132,15 +132,15 @@
 							</select>
 						</div>
 						<div class="flex flex-col gap-1">
-							<label>Gemini Api Keys <span class="text-[10px]"><a class="text-emerald-500 hover:text-emerald-600 underline" href="https://aistudio.google.com/" target="_blank">Get API</a></span></label>
+							<label class="text-xs md:text-sm">Gemini Api Keys <span class="text-[10px]"><a class="text-emerald-500 hover:text-emerald-600 underline" href="https://aistudio.google.com/" target="_blank">Get API</a></span></label>
 							<input name="GEMINI_API" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.settings.GEMINI_API %>" onkeydown="return event.key !== ' '" />
 						</div>
 						<div class="flex flex-col gap-1">
-							<label>Gemini Prompt</label>
+							<label class="text-xs md:text-sm">Gemini Prompt</label>
 							<input name="GEMINI_PROMPT" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.settings.GEMINI_PROMPT %>" onkeydown="return event.key !== ' '" />
 						</div>
 						<div class="flex flex-col gap-1">
-							<label>New Feature</label>
+							<label class="text-xs md:text-sm">New Feature</label>
 							<input class="p-2 rounded bg-gray-700 w-full focus:outline-none border border-gray-700" value="Comming soon." readonly />
 						</div>
 					</div>
@@ -164,14 +164,14 @@
 					<h2 class="font-bold mt-4">Artificial Intelligence</h2>
 					<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
 						<div class="flex flex-col gap-1">
-							<label>Gemini AI</label>
+							<label class="text-xs md:text-sm">Gemini AI</label>
 							<input name="CMD_GEMINI" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_GEMINI %>" onkeydown="return event.key !== ' '" />
 							<span class="text-xs text-gray-300">e.g: 
 							<code class="bg-gray-700 px-1">.ai</code> 
 							hello</span>
 						</div>
 						<div class="flex flex-col gap-1">
-							<label>Gemini AI Image Analytic</label>
+							<label class="text-xs md:text-sm">Gemini AI Image Analytic</label>
 							<input name="CMD_GEMINI_IMG" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_GEMINI_IMG %>" onkeydown="return event.key !== ' '" />
 							<span class="text-xs text-gray-300">e.g: (quote) 
 							<code class="bg-gray-700">.aiimg</code> 
@@ -182,21 +182,21 @@
 					<h2 class="font-bold mt-4">Wikipedia</h2>
 					<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
 						<div class="flex flex-col gap-1">
-							<label>Wiki Search</label>
+							<label class="text-xs md:text-sm">Wiki Search</label>
 							<input name="CMD_WIKIPEDIA_SEARCH" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_WIKIPEDIA_SEARCH %>" onkeydown="return event.key !== ' '" />
 							<span class="text-xs text-gray-300">e.g: 
 							<code class="bg-gray-700">.wiki-search</code> 
 							indonesia</span>
 						</div>
 						<div class="flex flex-col gap-1">
-							<label>Wiki Image</label>
+							<label class="text-xs md:text-sm">Wiki Image</label>
 							<input name="CMD_WIKIPEDIA_IMG" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_WIKIPEDIA_IMG %>" onkeydown="return event.key !== ' '" />
 							<span class="text-xs text-gray-300">e.g: 
 							<code class="bg-gray-700">.wiki-img</code> 
 							indonesia</span>
 						</div>
 						<div class="flex flex-col gap-1">
-							<label>Wiki AI</label>
+							<label class="text-xs md:text-sm">Wiki AI</label>
 							<input name="CMD_WIKIPEDIA_AI" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_WIKIPEDIA_AI %>" onkeydown="return event.key !== ' '" />
 							<span class="text-xs text-gray-300">e.g: 
 							<code class="bg-gray-700">.wiki-ai</code> 
@@ -207,14 +207,14 @@
 					<h2 class="font-bold mt-4">Quran</h2>
 					<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
 						<div class="flex flex-col gap-1">
-							<label>Surah</label>
+							<label class="text-xs md:text-sm">Surah</label>
 							<input name="CMD_SURAH" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_SURAH %>" onkeydown="return event.key !== ' '" />
 							<span class="text-xs text-gray-300">e.g: 
 							<code class="bg-gray-700">.surah</code> 
 							1</span>
 						</div>
 						<div class="flex flex-col gap-1">
-							<label>Surah Detail</label>
+							<label class="text-xs md:text-sm">Surah Detail</label>
 							<input name="CMD_SURAH_DETAIL" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_SURAH_DETAIL %>" onkeydown="return event.key !== ' '" />
 							<span class="text-xs text-gray-300">e.g: 
 							<code class="bg-gray-700">.surah-detail</code> 
@@ -225,144 +225,144 @@
 					<h2 class="font-bold mt-4">Encrypts</h2>
 					<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
 						<div class="flex flex-col gap-1">
-							<label>AES Encrypt</label>
+							<label class="text-xs md:text-sm">AES Encrypt</label>
 							<input name="CMD_AES_ENC" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_AES_ENC %>" onkeydown="return event.key !== ' '" />
 							<span class="text-xs text-gray-300">e.g: 
 							<code class="bg-gray-700">.aes-enc</code> 
-							hello words</span>
+							hellos</span>
 						</div>
 						<div class="flex flex-col gap-1">
-							<label>AES Decrypt</label>
+							<label class="text-xs md:text-sm">AES Decrypt</label>
 							<input name="CMD_AES_DEC" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_AES_DEC %>" onkeydown="return event.key !== ' '" />
 							<span class="text-xs text-gray-300">e.g: 
 							<code class="bg-gray-700">.aes-dec</code> 
 							text enc</span>
 						</div>
 						<div class="flex flex-col gap-1">
-							<label>Camelia Encrypt</label>
+							<label class="text-xs md:text-sm">Camelia Encrypt</label>
 							<input name="CMD_CAMELIA_ENC" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_CAMELIA_ENC %>" onkeydown="return event.key !== ' '" />
 							<span class="text-xs text-gray-300">e.g: 
 							<code class="bg-gray-700">.cam-enc</code> 
-							hello words</span>
+							hellos</span>
 						</div>
 						<div class="flex flex-col gap-1">
-							<label>Camelia Decrypt</label>
+							<label class="text-xs md:text-sm">Camelia Decrypt</label>
 							<input name="CMD_CAMELIA_DES" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_CAMELIA_DES %>" onkeydown="return event.key !== ' '" />
 							<span class="text-xs text-gray-300">e.g: 
 							<code class="bg-gray-700">.cam-dec</code> 
 							text enc</span>
 						</div>
 						<div class="flex flex-col gap-1">
-							<label>SHA Encrypt</label>
+							<label class="text-xs md:text-sm">SHA Encrypt</label>
 							<input name="CMD_SHA" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_SHA %>" onkeydown="return event.key !== ' '" />
 							<span class="text-xs text-gray-300">e.g: 
 							<code class="bg-gray-700">.sha</code> 
-							hello words</span>
+							hellos</span>
 						</div>
 						<div class="flex flex-col gap-1">
-							<label>MD5 Encrypt</label>
+							<label class="text-xs md:text-sm">MD5 Encrypt</label>
 							<input name="CMD_MD5" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_MD5 %>" onkeydown="return event.key !== ' '" />
 							<span class="text-xs text-gray-300">e.g: 
 							<code class="bg-gray-700">.md5</code> 
-							hello words</span>
+							hellos</span>
 						</div>
 						<div class="flex flex-col gap-1">
-							<label>Ripemd Encrypt</label>
+							<label class="text-xs md:text-sm">Ripemd Encrypt</label>
 							<input name="CMD_RIPEMD" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_RIPEMD %>" onkeydown="return event.key !== ' '" />
 							<span class="text-xs text-gray-300">e.g: 
 							<code class="bg-gray-700">.ripemd</code> 
-							hello words</span>
+							hellos</span>
 						</div>
 						<div class="flex flex-col gap-1">
-							<label>Bcrypt Encrypt</label>
+							<label class="text-xs md:text-sm">Bcrypt Encrypt</label>
 							<input name="CMD_BCRYPT" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_BCRYPT %>" onkeydown="return event.key !== ' '" />
 							<span class="text-xs text-gray-300">e.g: 
 							<code class="bg-gray-700">.bcrypt</code> 
-							hello word</span>
+							hello</span>
 						</div>
 					</div>
 					
 					<h2 class="font-bold mt-4">Downloader</h2>
 					<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
 						<div class="flex flex-col gap-1">
-							<label>Twitter MP4 Download</label>
+							<label class="text-xs md:text-sm">Twitter MP4 Download</label>
 							<input name="CMD_TWDLMP4" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_TWDLMP4 %>" onkeydown="return event.key !== ' '" />
 							<span class="text-xs text-gray-300">e.g: 
 							<code class="bg-gray-700">.twdl-mp4</code>
 							url</span>
 						</div>
 						<div class="flex flex-col gap-1">
-							<label>Twitter MP3 Download</label>
+							<label class="text-xs md:text-sm">Twitter MP3 Download</label>
 							<input name="CMD_TWDLMP3" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_TWDLMP3 %>" onkeydown="return event.key !== ' '" />
 							<span class="text-xs text-gray-300">e.g: 
 							<code class="bg-gray-700">.twdl-mp3</code>
 							url</span>
 						</div>
 						<div class="flex flex-col gap-1">
-							<label>Instagram MP4 Download</label>
+							<label class="text-xs md:text-sm">Instagram MP4 Download</label>
 							<input name="CMD_IGDLMP4" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_IGDLMP4 %>" onkeydown="return event.key !== ' '" />
 							<span class="text-xs text-gray-300">e.g: 
 							<code class="bg-gray-700">.igdl-mp4</code>
 							url</span>
 						</div>
 						<div class="flex flex-col gap-1">
-							<label>Instagram MP3 Download</label>
+							<label class="text-xs md:text-sm">Instagram MP3 Download</label>
 							<input name="CMD_IGDLMP3" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_IGDLMP3 %>" onkeydown="return event.key !== ' '" />
 							<span class="text-xs text-gray-300">e.g: 
 							<code class="bg-gray-700">.igdl-mp3</code>
 							url</span>
 						</div>
 						<div class="flex flex-col gap-1">
-							<label>TikTok MP4 Download</label>
+							<label class="text-xs md:text-sm">TikTok MP4 Download</label>
 							<input name="CMD_TKDLMP4" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_TKDLMP4 %>" onkeydown="return event.key !== ' '" />
 							<span class="text-xs text-gray-300">e.g: 
 							<code class="bg-gray-700">.tkdl-mp4</code>
 							 url</span>
 						</div>
 						<div class="flex flex-col gap-1">
-							<label>TikTok MP3 Download</label>
+							<label class="text-xs md:text-sm">TikTok MP3 Download</label>
 							<input name="CMD_TKDLMP3" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_TKDLMP3 %>" onkeydown="return event.key !== ' '" />
 							<span class="text-xs text-gray-300">e.g: 
 							<code class="bg-gray-700">.tkdl-mp3</code>
 							 url</span>
 						</div>
 						<div class="flex flex-col gap-1">
-							<label>Vimeo MP4 Download</label>
+							<label class="text-xs md:text-sm">Vimeo MP4 Download</label>
 							<input name="CMD_VMDLMP4" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_VMDLMP4 %>" onkeydown="return event.key !== ' '" />
 							<span class="text-xs text-gray-300">e.g: 
 							<code class="bg-gray-700">.vmdl-mp4</code>
 							 url</span>
 						</div>
 						<div class="flex flex-col gap-1">
-							<label>Vimeo MP3 Download</label>
+							<label class="text-xs md:text-sm">Vimeo MP3 Download</label>
 							<input name="CMD_VMDLMP3" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_VMDLMP3 %>" onkeydown="return event.key !== ' '" />
 							<span class="text-xs text-gray-300">e.g: 
 							<code class="bg-gray-700">.vmdl-mp3</code>
 							 url</span>
 						</div>
 						<div class="flex flex-col gap-1">
-							<label>Facebook MP4 Download</label>
+							<label class="text-xs md:text-sm">Facebook MP4 Download</label>
 							<input name="CMD_FBDLMP4" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_FBDLMP4 %>" onkeydown="return event.key !== ' '" />
 							<span class="text-xs text-gray-300">e.g: 
 							<code class="bg-gray-700">.fbdl-mp4</code>
 							 url</span>
 						</div>
 						<div class="flex flex-col gap-1">
-							<label>Facebook MP3 Download</label>
+							<label class="text-xs md:text-sm">Facebook MP3 Download</label>
 							<input name="CMD_FBDLMP3" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_FBDLMP3 %>" onkeydown="return event.key !== ' '" />
 							<span class="text-xs text-gray-300">e.g: 
 							<code class="bg-gray-700">.fbdl-mp3</code>
 							 url</span>
 						</div>
 						<div class="flex flex-col gap-1">
-							<label>YouTube MP4 YouTube</label>
+							<label class="text-xs md:text-sm">YouTube MP4 YouTube</label>
 							<input name="CMD_YTDLMP4" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_YTDLMP4 %>" onkeydown="return event.key !== ' '" />
 							<span class="text-xs text-gray-300">e.g: 
 							<code class="bg-gray-700">.ytdl-mp4</code>
 							 url</span>
 						</div>
 						<div class="flex flex-col gap-1">
-							<label>YouTube MP3 YouTube</label>
+							<label class="text-xs md:text-sm">YouTube MP3 YouTube</label>
 							<input name="CMD_YTDLMP3" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_YTDLMP3 %>" onkeydown="return event.key !== ' '" />
 							<span class="text-xs text-gray-300">e.g: 
 							<code class="bg-gray-700">.ytdl-mp3</code>
@@ -373,85 +373,85 @@
 					<h2 class="font-bold mt-4">Miscellaneous</h2>
 					<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
 						<div class="flex flex-col gap-1">
-							<label>Sticker Maker</label>
+							<label class="text-xs md:text-sm">Sticker Maker</label>
 							<input name="CMD_STICKER" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_STICKER %>" onkeydown="return event.key !== ' '" />
 							<span class="text-xs text-gray-300">e.g: (quote) 
 							<code class="bg-gray-700">.sticker</code>
 							</span>
 						</div>
 						<div class="flex flex-col gap-1">
-							<label>Text to Voice</label>
+							<label class="text-xs md:text-sm">Text to Voice</label>
 							<input name="CMD_TO_VOICE" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_TO_VOICE %>" onkeydown="return event.key !== ' '" />
 							<span class="text-xs text-gray-300">e.g: 
 							<code class="bg-gray-700">.tovoice</code>
-							halo apa kabar!
+							apa kabar!
 							</span>
 						</div>
 						<div class="flex flex-col gap-1">
-							<label>Country Info</label>
+							<label class="text-xs md:text-sm">Country Info</label>
 							<input name="CMD_COUNTRY" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_COUNTRY %>" onkeydown="return event.key !== ' '" />
 							<span class="text-xs text-gray-300">e.g: 
 							<code class="bg-gray-700">.country</code> 
 							indonesia</span>
 						</div>
 						<div class="flex flex-col gap-1">
-							<label>Weather Info</label>
+							<label class="text-xs md:text-sm">Weather Info</label>
 							<input name="CMD_WEATHER" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_WEATHER %>" onkeydown="return event.key !== ' '" />
 							<span class="text-xs text-gray-300">e.g: 
 							<code class="bg-gray-700">.weather</code> 
 							jakarta</span>
 						</div>
 						<div class="flex flex-col gap-1">
-							<label>SEO Info</label>
+							<label class="text-xs md:text-sm">SEO Info</label>
 							<input name="CMD_SEO" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_SEO %>" onkeydown="return event.key !== ' '" />
 							<span class="text-xs text-gray-300">e.g: 
 							<code class="bg-gray-700">.seo</code> 
 							youtube.com</span>
 						</div>
 						<div class="flex flex-col gap-1">
-							<label>Screenshoot Web</label>
+							<label class="text-xs md:text-sm">Screenshoot Web</label>
 							<input name="CMD_SSWEB" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_SSWEB %>" onkeydown="return event.key !== ' '" />
 							<span class="text-xs text-gray-300">e.g: 
 							<code class="bg-gray-700">.ssweb</code> 
 							youtube.com</span>
 						</div>
 						<div class="flex flex-col gap-1">
-							<label>Screenshoot Mobile</label>
+							<label class="text-xs md:text-sm">Screenshoot Mobile</label>
 							<input name="CMD_SSMOBILE" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_SSMOBILE %>" onkeydown="return event.key !== ' '" />
 							<span class="text-xs text-gray-300">e.g: 
 							<code class="bg-gray-700">.ssmobile</code> 
 							youtube.com</span>
 						</div>
 						<div class="flex flex-col gap-1">
-							<label>Github Stalker</label>
+							<label class="text-xs md:text-sm">Github Stalker</label>
 							<input name="CMD_GITHUB" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_GITHUB %>" onkeydown="return event.key !== ' '" />
 							<span class="text-xs text-gray-300">e.g: 
 							<code class="bg-gray-700">.github</code> 
 							username</span>
 						</div>
 						<div class="flex flex-col gap-1">
-							<label>OCR (Image To Text)</label>
+							<label class="text-xs md:text-sm">OCR (Image To Text)</label>
 							<input name="CMD_OCR" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_OCR %>" onkeydown="return event.key !== ' '" />
 							<span class="text-xs text-gray-300">e.g: (quote) 
 							<code class="bg-gray-700">.ocr</code> 
 							</span>
 						</div>
 						<div class="flex flex-col gap-1">
-							<label>Count Words</label>
+							<label class="text-xs md:text-sm">Count Words</label>
 							<input name="CMD_COUNT_WORDS" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_COUNT_WORDS %>" onkeydown="return event.key !== ' '" />
 							<span class="text-xs text-gray-300">e.g: 
 							<code class="bg-gray-700">.count-words</code> 
-							Hello word</span>
+							hello</span>
 						</div>
 						<div class="flex flex-col gap-1">
-							<label>QRCode Generator</label>
+							<label class="text-xs md:text-sm">QRCode Generator</label>
 							<input name="CMD_QRCODE" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_QRCODE %>" onkeydown="return event.key !== ' '" />
 							<span class="text-xs text-gray-300">e.g: 
 							<code class="bg-gray-700">.qrcode</code> 
-							Hello Word</span>
+							hello</span>
 						</div>
 						<div class="flex flex-col gap-1">
-							<label>Translate Text</label>
+							<label class="text-xs md:text-sm">Translate Text</label>
 							<input name="CMD_TRANSLATE" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_TRANSLATE %>" onkeydown="return event.key !== ' '" />
 							<span class="text-xs text-gray-300">e.g: 
 							<code class="bg-gray-700">.translate-</code>id 

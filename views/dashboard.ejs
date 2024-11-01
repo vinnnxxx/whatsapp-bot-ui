@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FHY WaBotUI - Bot WhatsApp Otomatis</title>
+    <title>Dashboard - FHY WaBotUI</title>
 	<meta name="description" content="FHY WaBot adalah bot WhatsApp otomatis yang memudahkan komunikasi dengan fitur canggih dan kemudahan pengelolaan pesan secara efektif." />
 	<meta name="keywords" content="FHY WaBot, WhatsApp bot, bot otomatis, pengelolaan pesan WhatsApp, fitur chatbot, WhatsApp API, bot WA" />
 	<link rel="icon" type="image/png" href="/ss1.png" sizes="32x32" />
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         .chat-bubble {
-            max-width: 75%;
             margin-bottom: 10px;
             position: relative;
             display: flex;
@@ -209,22 +208,26 @@
 			messageDiv.classList.add('chat-bubble');
 
 			if (messageData.group) {
-				messageDiv.classList.add('rounded', 'bg-gray-600');
+				messageDiv.classList.add('flex');
 				messageDiv.innerHTML = `
-					<div class="p-2">
-						<span class="font-bold">${messageData.group}</span>
-						<span>(${messageData.participant})</span>
+					<div class="bg-gray-600 rounded">
+						<div class="p-2">
+							<span class="font-bold">${messageData.group}</span>
+							<span>(${messageData.participant})</span>
+						</div>
+						<p class="p-2 bg-gray-700">${messageData.message}</p>
 					</div>
-					<p class="p-2 bg-gray-700">${messageData.message}</p>
 				`;
 				document.getElementById('groupMessageContainer').appendChild(messageDiv);
 			} else {
-				messageDiv.classList.add('rounded', 'bg-gray-600');
+				messageDiv.classList.add('flex');
 				messageDiv.innerHTML = `
-					<div class="p-2">
-						<span class="font-bold">${messageData.sender}</span>
+					<div class="bg-gray-600 rounded">
+						<div class="p-2">
+							<span class="font-bold">${messageData.sender}</span>
+						</div>
+						<p class="bg-gray-700 p-2">${messageData.message}</p>
 					</div>
-					<p class="bg-gray-700 p-2">${messageData.message}</p>
 				`;
 				document.getElementById('privateMessageContainer').appendChild(messageDiv);
 			}
