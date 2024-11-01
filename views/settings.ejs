@@ -565,7 +565,10 @@
 	
 	<div id="editModalBadwords" class="hidden fixed inset-0 bg-gray-800 bg-opacity-90 flex items-center justify-center">
 		<div class="bg-gray-700 rounded-lg w-full max-w-3xl shadow-lg p-6">
-			<h2 class="text-xl text-center font-semibold mb-4">Edit Badwords List</h2>
+			<div class="flex flex-col gap-1">
+				<h2 class="text-xl text-center font-semibold">Edit Badwords List</h2>
+				<span class="text-center mb-4 text-xs">Separate with commas</span>
+			</div>
 			<form action="/update-badwords" method="POST">
 				<div class="flex">
 					<textarea name="badwords" class="p-4 w-full bg-gray-800 rounded overflow-auto h-[75vh] focus:outline-none" placeholder="Enter bad words separated by commas..."><%- config.badwords.join(', ') %></textarea>
@@ -590,7 +593,10 @@
 		
 	<div id="editModalLink" class="hidden fixed inset-0 bg-gray-800 bg-opacity-90 flex items-center justify-center">
 		<div class="bg-gray-700 rounded-lg w-full max-w-3xl shadow-lg p-6">
-			<h2 class="text-xl text-center font-semibold mb-4">Edit Link Excluded</h2>
+			<div class="flex flex-col gap-1">
+				<h2 class="text-xl text-center font-semibold">Edit Link Excluded</h2>
+				<span class="text-center mb-4 text-xs">Separate with commas</span>
+			</div>
 			<form action="/update-link" method="POST">
 				<div class="flex">
 					<textarea name="linkExcluded" class="p-4 w-full bg-gray-800 rounded overflow-auto h-[75vh] focus:outline-none" placeholder="Enter bad words separated by commas..."><%- config.excludeLinks.join(', ') %></textarea>
