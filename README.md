@@ -51,6 +51,8 @@ Project provides an intuitive and responsive interface, allowing users to manage
 ├• QRCode Generator
 ├• Translate Text
 ├• Anti Links
+├• Custom Auto Response
+├• Custom Manual Messages
 └• Anti Badwords
 ```
 

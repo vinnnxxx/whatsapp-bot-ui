@@ -18,6 +18,7 @@ const PORT = process.env.PORT || 3000;
 
 let qrCodeUrl;
 let messages = [];
+let sock;
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
@@ -44,7 +45,7 @@ const QRCustom = async (qr) => {
 const ManualResponse = {};
 
 (async () => {
-    const sock = await WaBot(QRUrl = config.settings.QR_URL, QRCustom, AutoResponse, ManualResponse, self = config.settings.SELF);
+    sock = await WaBot(QRUrl = config.settings.QR_URL, QRCustom, AutoResponse, ManualResponse, self = config.settings.SELF);
 
     sock.ev.on('messages.upsert', async (messageUpdate) => {
         const message = messageUpdate.messages[0];
@@ -351,4 +352,107 @@ app.delete('/delete-auth-info', (req, res) => {
             process.exit(0);
         }, 1000);
     });
+});
+
+app.get('/message', (req, res) => {
+    const authInfoPath = path.join(__dirname, 'auth_info');
+    const sessionPath = path.join(authInfoPath, 'session-');
+    if (!fs.existsSync(authInfoPath)) {
+        return res.redirect('/');
+    }
+    const sessionFiles = fs.readdirSync(authInfoPath).filter(file => file.startsWith('session-'));
+    if (sessionFiles.length === 0) {
+        return res.redirect('/');
+    }
+    res.render('message');
+});
+
+app.post('/send-message', async (req, res) => {
+    const {
+        text,
+        image,
+        video,
+        audio,
+        mention,
+        location,
+        polling,
+        vcard
+    } = req.body;
+    const promises = [];
+    if (text) {
+        text.forEach(item => {
+            if (item.id && item.messageText) {
+                promises.push(sock.sendMessage(`${item.id}@s.whatsapp.net`, { text: item.messageText }));
+            }
+        });
+    }
+	if (image) {
+        image.forEach(item => {
+            if (item.id && item.url) {
+                promises.push(sock.sendMessage(`${item.id}@s.whatsapp.net`, { image: { url: item.url, caption: item.caption || '' } }));
+            }
+        });
+    }
+    if (video) {
+        video.forEach(item => {
+            if (item.id && item.url) {
+                promises.push(sock.sendMessage(`${item.id}@s.whatsapp.net`, { video: { url: item.url, caption: item.caption || '' } }));
+            }
+        });
+    }
+    if (audio) {
+        audio.forEach(item => {
+            if (item.id && item.url) {
+                promises.push(sock.sendMessage(`${item.id}@s.whatsapp.net`, { audio: { url: item.url, caption: item.caption || '' } }));
+            }
+        });
+    }
+    if (mention) {
+        mention.forEach(item => {
+            if (item.id && item.messageText && item.mention) {
+                promises.push(sock.sendMessage(`${item.id}@s.whatsapp.net`, { text: item.messageText, mentions: [item.mention] }));
+            }
+        });
+    }
+    if (location) {
+        location.forEach(item => {
+            if (item.id && item.latitude && item.longitude) {
+                promises.push(sock.sendMessage(`${item.id}@s.whatsapp.net`, { location: { latitude: item.latitude, longitude: item.longitude } }));
+            }
+        });
+    }
+    if (polling) {
+        polling.forEach(item => {
+            if (item.id && item.name && item.values) {
+                promises.push(sock.sendMessage(`${item.id}@s.whatsapp.net`, {
+                    poll: {
+                        name: item.name,
+                        options: item.values,
+                        selectableCount: item.selectableCount,
+                    }
+                }));
+            }
+        });
+    }
+    if (vcard) {
+        vcard.forEach(item => {
+            if (item.id && item.fullName && item.phoneId) {
+                promises.push(sock.sendMessage(`${item.id}@s.whatsapp.net`, {
+                    contacts: [{
+                        displayName: item.fullName,
+                        org: item.organization,
+                        phones: [{ phone: item.phoneId }],
+                        vcard: `BEGIN:VCARD\nVERSION:3.0\nFN:${item.fullName}\nORG:${item.organization}\nTEL;TYPE=CELL:${item.phoneId}\nEND:VCARD`
+                    }]
+                }));
+            }
+        });
+    }
+    try {
+        await Promise.all(promises);
+        res.json({ message: 'Messages sent successfully.' });
+    } catch (error) {
+        console.error('Failed to send messages:', error);
+        res.status(500).json({ error: 'Failed to send messages.' });
+    }
 });
