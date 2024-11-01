@@ -2,9 +2,9 @@
 
 # Watsapp Bot UI
 
-Proyek ini menyediakan antarmuka yang intuitif dan responsif, memungkinkan pengguna untuk mengelola percakapan, mengonfigurasi pengaturan bot, dan memantau aktivitas secara real-time
+Project provides an intuitive and responsive interface, allowing users to manage conversations, configure bot settings, and monitor activity in real-time
 
-### Feature
+### Features
 
 ```
 🤖 Artificial Intelligence
@@ -54,7 +54,7 @@ Proyek ini menyediakan antarmuka yang intuitif dan responsif, memungkinkan pengg
 └• Anti Badwords
 ```
 
-### Instalasi
+### Installation
 
 ```
 git clone https://github.com/fitri-hy/whatsapp-bot-ui.git
@@ -62,7 +62,7 @@ cd whatsapp-bot-ui
 npm install
 ```
 
-### Menjalankan Server
+### Running Servers
 
-- Double klik pada file `start.bat`
+- Double click on the file `start.bat`
 - Frontend: `http://localhost:3000/`
