@@ -40,7 +40,7 @@ Proyek ini menyediakan antarmuka yang intuitif dan responsif, memungkinkan pengg
 
 📦 Miscellaneous
 ├• Sticker Maker
-├• Text to Voice
+├• Text to Voice (Multi Language)
 ├• Country Info
 ├• Weather Info
 ├• SEO Info
@@ -49,7 +49,8 @@ Proyek ini menyediakan antarmuka yang intuitif dan responsif, memungkinkan pengg
 ├• OCR (Image To Text)
 ├• Count Words
 ├• QRCode Generator
-└• Translate Text
+├• Translate Text
+└• Anti Badwords
 ```
 
 ### Instalasi
