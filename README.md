@@ -38,7 +38,7 @@ Project provides an intuitive and responsive interface, allowing users to manage
 ├• Facebook MP4/MP3 Download
 └• YouTube MP4/MP3 Download
 
-📺
+📺 Entertainment
 ├• Random Words of Wisdom
 ├• Random Hecker Words
 ├• Random Dilan Words
