@@ -73,5 +73,12 @@ npm install
 
 ### Running Servers
 
-- Double click on the file `start.bat`
-- Frontend: `http://localhost:3000/`
+- **Windows**
+
+Double click on the file `start.bat`
+
+- **Linux/Termux**
+
+write command `./start-linux.sh` in terminal
+
+- **Frontend**: `http://localhost:3000/`
