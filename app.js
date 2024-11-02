@@ -11,7 +11,7 @@ const AutoResponse = require('./settings/auto_response.json');
 const configPath = path.join(__dirname, './settings/config.json');
 const config = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
 const configAutoResponsePath = path.join(__dirname, './settings/auto_response.json');
-const configAutoResponse = JSON.parse(fs.readFileSync(configAutoResponsePath, 'utf-8'));
+const configEntertainPath = path.join(__dirname, './settings/entertain.json');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -202,13 +202,23 @@ app.get('/settings', (req, res) => {
         if (err) {
             return res.status(500).json({ error: 'Failed to read config file' });
         }
+
         fs.readFile(configAutoResponsePath, 'utf8', (err, autoResponseData) => {
             if (err) {
                 return res.status(500).json({ error: 'Failed to read auto response file' });
             }
-            const config = JSON.parse(configData);
-            const autoResponse = JSON.parse(autoResponseData);
-            res.render('settings', { config, autoResponse });
+
+            fs.readFile(configEntertainPath, 'utf8', (err, entertainData) => {
+                if (err) {
+                    return res.status(500).json({ error: 'Failed to read entertain file' });
+                }
+
+                const config = JSON.parse(configData);
+                const autoResponse = JSON.parse(autoResponseData);
+                const entertain = JSON.parse(entertainData);
+
+                res.render('settings', { config, autoResponse, entertain });
+            });
         });
     });
 });
@@ -220,6 +230,126 @@ app.post('/settings/update', (req, res) => {
             return res.status(500).json({ error: 'Failed to save auto response file' });
         }
         res.redirect('/settings');
+    });
+});
+
+app.post('/settings/katakata', (req, res) => {
+    fs.readFile(configEntertainPath, 'utf8', (err, data) => {
+        if (err) return res.status(500).json({ error: 'Failed to read auto response file' });
+
+        let currentData;
+        try {
+            currentData = JSON.parse(data);
+        } catch {
+            return res.status(400).json({ error: 'Invalid JSON format' });
+        }
+        let updatedKataKata;
+        try {
+            updatedKataKata = JSON.parse(req.body.kataKata);
+        } catch {
+            return res.status(400).json({ error: 'Invalid JSON format for kataKata' });
+        }
+        currentData.kataKata = updatedKataKata;
+        fs.writeFile(configEntertainPath, JSON.stringify(currentData, null, 2), 'utf8', (err) => {
+            if (err) return res.status(500).json({ error: 'Failed to save auto response file' });
+            res.redirect('/settings');
+        });
+    });
+});
+
+app.post('/settings/hecker', (req, res) => {
+    fs.readFile(configEntertainPath, 'utf8', (err, data) => {
+        if (err) return res.status(500).json({ error: 'Failed to read auto response file' });
+
+        let currentData;
+        try {
+            currentData = JSON.parse(data);
+        } catch {
+            return res.status(400).json({ error: 'Invalid JSON format' });
+        }
+        let updatedKataKata;
+        try {
+            updatedKataKata = JSON.parse(req.body.hecker);
+        } catch {
+            return res.status(400).json({ error: 'Invalid JSON format for hecker' });
+        }
+        currentData.hecker = updatedKataKata;
+        fs.writeFile(configEntertainPath, JSON.stringify(currentData, null, 2), 'utf8', (err) => {
+            if (err) return res.status(500).json({ error: 'Failed to save auto response file' });
+            res.redirect('/settings');
+        });
+    });
+});
+
+app.post('/settings/bucin', (req, res) => {
+    fs.readFile(configEntertainPath, 'utf8', (err, data) => {
+        if (err) return res.status(500).json({ error: 'Failed to read auto response file' });
+
+        let currentData;
+        try {
+            currentData = JSON.parse(data);
+        } catch {
+            return res.status(400).json({ error: 'Invalid JSON format' });
+        }
+        let updatedKataKata;
+        try {
+            updatedKataKata = JSON.parse(req.body.bucin);
+        } catch {
+            return res.status(400).json({ error: 'Invalid JSON format for bucin' });
+        }
+        currentData.bucin = updatedKataKata;
+        fs.writeFile(configEntertainPath, JSON.stringify(currentData, null, 2), 'utf8', (err) => {
+            if (err) return res.status(500).json({ error: 'Failed to save auto response file' });
+            res.redirect('/settings');
+        });
+    });
+});
+
+app.post('/settings/dilan', (req, res) => {
+    fs.readFile(configEntertainPath, 'utf8', (err, data) => {
+        if (err) return res.status(500).json({ error: 'Failed to read auto response file' });
+
+        let currentData;
+        try {
+            currentData = JSON.parse(data);
+        } catch {
+            return res.status(400).json({ error: 'Invalid JSON format' });
+        }
+        let updatedKataKata;
+        try {
+            updatedKataKata = JSON.parse(req.body.dilan);
+        } catch {
+            return res.status(400).json({ error: 'Invalid JSON format for dilan' });
+        }
+        currentData.dilan = updatedKataKata;
+        fs.writeFile(configEntertainPath, JSON.stringify(currentData, null, 2), 'utf8', (err) => {
+            if (err) return res.status(500).json({ error: 'Failed to save auto response file' });
+            res.redirect('/settings');
+        });
+    });
+});
+
+app.post('/settings/quote', (req, res) => {
+    fs.readFile(configEntertainPath, 'utf8', (err, data) => {
+        if (err) return res.status(500).json({ error: 'Failed to read auto response file' });
+
+        let currentData;
+        try {
+            currentData = JSON.parse(data);
+        } catch {
+            return res.status(400).json({ error: 'Invalid JSON format' });
+        }
+        let updatedKataKata;
+        try {
+            updatedKataKata = JSON.parse(req.body.quote);
+        } catch {
+            return res.status(400).json({ error: 'Invalid JSON format for quote' });
+        }
+        currentData.quote = updatedKataKata;
+        fs.writeFile(configEntertainPath, JSON.stringify(currentData, null, 2), 'utf8', (err) => {
+            if (err) return res.status(500).json({ error: 'Failed to save auto response file' });
+            res.redirect('/settings');
+        });
     });
 });
 

@@ -222,39 +222,38 @@
 						</div>
 					</div>
 					
-					
 					<h2 class="font-bold mt-4">Entertainment</h2>
 					<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
 						<div class="flex flex-col gap-1">
-							<label class="text-xs md:text-sm">Words of Wisdom <a href="#" id="######" class="text-xs text-emerald-500 hover:text-emerald-600 underline">Edit</a></label>
+							<label class="text-xs md:text-sm">Words of Wisdom <a href="#" id="buttonWords" class="text-xs text-emerald-500 hover:text-emerald-600 underline">Edit</a></label>
 							<input name="CMD_KATA" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_KATA %>" onkeydown="return event.key !== ' '" />
 							<span class="text-xs text-gray-300">e.g: 
 							<code class="bg-gray-700">.kata</code> 
 							</span>
 						</div>
 						<div class="flex flex-col gap-1">
-							<label class="text-xs md:text-sm">Hecker Need Love <a href="#" id="######" class="text-xs text-emerald-500 hover:text-emerald-600 underline">Edit</a></label>
+							<label class="text-xs md:text-sm">Hecker Need Love <a href="#" id="buttonHecker" class="text-xs text-emerald-500 hover:text-emerald-600 underline">Edit</a></label>
 							<input name="CMD_KECKER" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_KECKER %>" onkeydown="return event.key !== ' '" />
 							<span class="text-xs text-gray-300">e.g: 
 							<code class="bg-gray-700">.hecker</code> 
 							</span>
 						</div>
 						<div class="flex flex-col gap-1">
-							<label class="text-xs md:text-sm">Dilan <a href="#" id="######" class="text-xs text-emerald-500 hover:text-emerald-600 underline">Edit</a></label>
+							<label class="text-xs md:text-sm">Dilan <a href="#" id="buttonDilan" class="text-xs text-emerald-500 hover:text-emerald-600 underline">Edit</a></label>
 							<input name="CMD_DILAN" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_DILAN %>" onkeydown="return event.key !== ' '" />
 							<span class="text-xs text-gray-300">e.g: 
 							<code class="bg-gray-700">.dilan</code> 
 							</span>
 						</div>
 						<div class="flex flex-col gap-1">
-							<label class="text-xs md:text-sm">Need Love <a href="#" id="######" class="text-xs text-emerald-500 hover:text-emerald-600 underline">Edit</a></label>
+							<label class="text-xs md:text-sm">Need Love <a href="#" id="buttonBucin" class="text-xs text-emerald-500 hover:text-emerald-600 underline">Edit</a></label>
 							<input name="CMD_BUCIN" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_BUCIN %>" onkeydown="return event.key !== ' '" />
 							<span class="text-xs text-gray-300">e.g: 
 							<code class="bg-gray-700">.bucin</code> 
 							</span>
 						</div>
 						<div class="flex flex-col gap-1">
-							<label class="text-xs md:text-sm">Quote <a href="#" id="######" class="text-xs text-emerald-500 hover:text-emerald-600 underline">Edit</a></label>
+							<label class="text-xs md:text-sm">Quote <a href="#" id="buttonQuote" class="text-xs text-emerald-500 hover:text-emerald-600 underline">Edit</a></label>
 							<input name="CMD_QUOTE" class="p-2 rounded bg-gray-800 w-full focus:outline-none border border-gray-700" value="<%= config.cmd.CMD_QUOTE %>" onkeydown="return event.key !== ' '" />
 							<span class="text-xs text-gray-300">e.g: 
 							<code class="bg-gray-700">.quote</code> 
@@ -681,6 +680,141 @@
         </div>
     </div>
 	
+	<div id="modalWords" class="hidden fixed inset-0 bg-gray-800 bg-opacity-90 flex items-center justify-center">
+		<div class="bg-gray-700 rounded-lg w-full max-w-3xl shadow-lg p-6">
+			<div class="flex flex-col gap-1 mb-4">
+				<h2 class="text-xl text-center font-semibold">Edit Words Random</h2>
+			</div>
+			<form action="/settings/katakata" method="POST">
+				<div class="flex">
+					<textarea name="kataKata" class="p-4 w-full bg-gray-800 rounded overflow-auto h-[75vh] focus:outline-none" placeholder="Enter bad words separated by new lines..."><%= JSON.stringify(entertain.kataKata, null, 2) %></textarea>
+				</div>
+				<div class="flex justify-end gap-2 mt-4">
+					<button type="submit" class="bg-gray-800 flex items-center gap-2 hover:bg-blue-800 text-white px-4 py-2 rounded">
+						<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6">
+							<path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+						</svg> 
+						Save
+					</button>
+					<button type="button" id="closeModalWords" class="bg-gray-800 flex items-center gap-2 hover:bg-red-800 text-white px-4 py-2 rounded">
+						<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+						  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+						</svg>
+						Close
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
+	
+	<div id="modalHecker" class="hidden fixed inset-0 bg-gray-800 bg-opacity-90 flex items-center justify-center">
+		<div class="bg-gray-700 rounded-lg w-full max-w-3xl shadow-lg p-6">
+			<div class="flex flex-col gap-1 mb-4">
+				<h2 class="text-xl text-center font-semibold">Edit Hecker Random</h2>
+			</div>
+			<form action="/settings/hecker" method="POST">
+				<div class="flex">
+					<textarea name="hecker" class="p-4 w-full bg-gray-800 rounded overflow-auto h-[75vh] focus:outline-none" placeholder="Enter bad words separated by commas..."><%= JSON.stringify(entertain.hecker, null, 2) %></textarea>
+				</div>
+				<div class="flex justify-end gap-2 mt-4">
+					<button type="submit" class="bg-gray-800 flex items-center gap-2 hover:bg-blue-800 text-white px-4 py-2 rounded">
+						<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6">
+							<path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+						</svg> 
+						Save
+					</button>
+					<button type="button" id="closeModalHecker" class="bg-gray-800 flex items-center gap-2 hover:bg-red-800 text-white px-4 py-2 rounded">
+						<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+						  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+						</svg>
+						Close
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
+	
+	<div id="modalBucin" class="hidden fixed inset-0 bg-gray-800 bg-opacity-90 flex items-center justify-center">
+		<div class="bg-gray-700 rounded-lg w-full max-w-3xl shadow-lg p-6">
+			<div class="flex flex-col gap-1 mb-4">
+				<h2 class="text-xl text-center font-semibold">Edit Bucin Random</h2>
+			</div>
+			<form action="/settings/bucin" method="POST">
+				<div class="flex">
+					<textarea name="bucin" class="p-4 w-full bg-gray-800 rounded overflow-auto h-[75vh] focus:outline-none" placeholder="Enter bad words separated by commas..."><%= JSON.stringify(entertain.bucin, null, 2) %></textarea>
+				</div>
+				<div class="flex justify-end gap-2 mt-4">
+					<button type="submit" class="bg-gray-800 flex items-center gap-2 hover:bg-blue-800 text-white px-4 py-2 rounded">
+						<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6">
+							<path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+						</svg> 
+						Save
+					</button>
+					<button type="button" id="closeModalBucin" class="bg-gray-800 flex items-center gap-2 hover:bg-red-800 text-white px-4 py-2 rounded">
+						<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+						  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+						</svg>
+						Close
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
+	
+	<div id="modalDilan" class="hidden fixed inset-0 bg-gray-800 bg-opacity-90 flex items-center justify-center">
+		<div class="bg-gray-700 rounded-lg w-full max-w-3xl shadow-lg p-6">
+			<div class="flex flex-col gap-1 mb-4">
+				<h2 class="text-xl text-center font-semibold">Edit Dilan Random</h2>
+			</div>
+			<form action="/settings/dilan" method="POST">
+				<div class="flex">
+					<textarea name="dilan" class="p-4 w-full bg-gray-800 rounded overflow-auto h-[75vh] focus:outline-none" placeholder="Enter bad words separated by commas..."><%= JSON.stringify(entertain.dilan, null, 2) %></textarea>
+				</div>
+				<div class="flex justify-end gap-2 mt-4">
+					<button type="submit" class="bg-gray-800 flex items-center gap-2 hover:bg-blue-800 text-white px-4 py-2 rounded">
+						<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6">
+							<path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+						</svg> 
+						Save
+					</button>
+					<button type="button" id="closeModalDilan" class="bg-gray-800 flex items-center gap-2 hover:bg-red-800 text-white px-4 py-2 rounded">
+						<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+						  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+						</svg>
+						Close
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
+	
+	<div id="modalQuote" class="hidden fixed inset-0 bg-gray-800 bg-opacity-90 flex items-center justify-center">
+		<div class="bg-gray-700 rounded-lg w-full max-w-3xl shadow-lg p-6">
+			<div class="flex flex-col gap-1 mb-4">
+				<h2 class="text-xl text-center font-semibold">Edit Quote Random</h2>
+			</div>
+			<form action="/settings/quote" method="POST">
+				<div class="flex">
+					<textarea name="quote" class="p-4 w-full bg-gray-800 rounded overflow-auto h-[75vh] focus:outline-none" placeholder="Enter bad words separated by commas..."><%= JSON.stringify(entertain.quote, null, 2) %></textarea>
+				</div>
+				<div class="flex justify-end gap-2 mt-4">
+					<button type="submit" class="bg-gray-800 flex items-center gap-2 hover:bg-blue-800 text-white px-4 py-2 rounded">
+						<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6">
+							<path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+						</svg> 
+						Save
+					</button>
+					<button type="button" id="closeModalQuote" class="bg-gray-800 flex items-center gap-2 hover:bg-red-800 text-white px-4 py-2 rounded">
+						<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+						  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+						</svg>
+						Close
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
+	
 	<script>
 		$('#table-custom').DataTable({
 			"pageLength": 30,
@@ -807,6 +941,56 @@
         });
         closeModalLink.addEventListener('click', () => {
             modalLink.classList.add('hidden');
+        });
+		
+		const modalWords = document.getElementById('modalWords');
+        const buttonWords = document.getElementById('buttonWords');
+        const closeModalWords = document.getElementById('closeModalWords');
+        buttonWords.addEventListener('click', () => {
+            modalWords.classList.remove('hidden');
+        });
+        closeModalWords.addEventListener('click', () => {
+            modalWords.classList.add('hidden');
+        });
+		
+		const modalHecker = document.getElementById('modalHecker');
+        const buttonHecker = document.getElementById('buttonHecker');
+        const closeModalHecker = document.getElementById('closeModalHecker');
+        buttonHecker.addEventListener('click', () => {
+            modalHecker.classList.remove('hidden');
+        });
+        closeModalHecker.addEventListener('click', () => {
+            modalHecker.classList.add('hidden');
+        });
+		
+		const modalDilan = document.getElementById('modalDilan');
+        const buttonDilan = document.getElementById('buttonDilan');
+        const closeModalDilan = document.getElementById('closeModalDilan');
+        buttonDilan.addEventListener('click', () => {
+            modalDilan.classList.remove('hidden');
+        });
+        closeModalDilan.addEventListener('click', () => {
+            modalDilan.classList.add('hidden');
+        });
+		
+		const modalBucin = document.getElementById('modalBucin');
+        const buttonBucin = document.getElementById('buttonBucin');
+        const closeModalBucin = document.getElementById('closeModalBucin');
+        buttonBucin.addEventListener('click', () => {
+            modalBucin.classList.remove('hidden');
+        });
+        closeModalBucin.addEventListener('click', () => {
+            modalBucin.classList.add('hidden');
+        });
+		
+		const modalQuote = document.getElementById('modalQuote');
+        const buttonQuote = document.getElementById('buttonQuote');
+        const closeModalQuote = document.getElementById('closeModalQuote');
+        buttonQuote.addEventListener('click', () => {
+            modalQuote.classList.remove('hidden');
+        });
+        closeModalQuote.addEventListener('click', () => {
+            modalQuote.classList.add('hidden');
         });
     </script>
 </body>
