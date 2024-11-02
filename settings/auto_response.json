@@ -56,9 +56,9 @@
     }
   },
   "imagesReact": {
-    "!image-react": {
+    "!menu": {
       "url": "./public/media/default.jpg",
-      "caption": "I sent caption image with reaction!",
+      "caption": "I sent images",
       "preReact": "⏳",
       "postReact": "✅",
       "errReact": "❌",
