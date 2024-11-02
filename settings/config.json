@@ -47,7 +47,7 @@
   },
   "settings": {
     "QR_URL": true,
-    "SELF": true,
+    "SELF": false,
     "ANTI_BADWORDS": false,
     "ANTI_LINK": false,
     "GEMINI_API": "AIzaxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
