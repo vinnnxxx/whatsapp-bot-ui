@@ -79,6 +79,6 @@ Double click on the file `start.bat`
 
 - **Linux/Termux**
 
-write command `./start-linux.sh` in terminal
+write command `./start.sh` in terminal
 
 - **Frontend**: `http://localhost:3000/`
